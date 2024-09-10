@@ -1,20 +1,17 @@
 <!-- Navbar -->
 <nav class="relative
     flex justify-between items-center
-    p-2 px-8
-    bg-slate-200 text-slate-600
+    p-6 px-8
+    bg-white text-slate-600
     dark:bg-zinc-900 dark:text-zinc-300
-    shadow-lg hover:shadow-xl
     transition duration-300 ease-in-out">
 
     <!-- Page Links -->
     <ul class="flex flex-row text-sm font-semibold">
         @for (link of pageLinks; track link.name) {
         <li class="pr-2">
-            <a [routerLink]="link.path" class="rounded-full
-                px-2 py-1
-                hover:bg-slate-400 hover:text-slate-200
-                dark:hover:bg-zinc-600 dark:hover:text-zinc-900
+            <a [routerLink]="link.path" class="px-2 py-1
+                hover:text-lime-600 dark:hover:text-lime-300
                 transition duration-500 ease-in-out">
                 {{ link.name }}
             </a>
@@ -23,7 +20,8 @@
     </ul>
 
     <!-- Identity -->
-    <h3 class="absolute left-1/2 transform -translate-x-1/2 text-xl font-bold font-serif">
+    <h3 class="absolute left-1/2 transform -translate-x-1/2
+        text-xl font-bold font-serif">
         max niessl.
     </h3>
 
@@ -31,22 +29,18 @@
     <ul class="flex flex-row text-sm font-semibold">
         <!-- Theme -->
         <li class="pr-2">
-            <button class="rounded-full
-                px-2 py-1
-                hover:bg-slate-400 hover:text-slate-200
-                dark:hover:bg-zinc-600 dark:hover:text-zinc-900
-                transition duration-500 ease-in-out" (click)="toggleDarkMode()">
+            <button class="px-2 py-1
+            hover:text-lime-600 dark:hover:text-lime-300
+            transition duration-500 ease-in-out" (click)="toggleDarkMode()">
                 <fa-icon [icon]="themeIcon"></fa-icon>
             </button>
         </li>
 
         <!-- Login -->
         <li>
-            <button class="rounded-full
-                px-2 py-1
-                hover:bg-slate-400 hover:text-slate-200
-                dark:hover:bg-zinc-600 dark:hover:text-zinc-900
-                transition duration-500 ease-in-out">
+            <button class="px-2 py-1
+            hover:text-lime-600 dark:hover:text-lime-300
+            transition duration-500 ease-in-out">
                 Login
             </button>
         </li>
