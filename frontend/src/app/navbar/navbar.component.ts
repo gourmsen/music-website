@@ -1,6 +1,10 @@
 // basic
 import { Component } from "@angular/core";
 
+// icons
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+
 // router
 import { RouterLink, RouterLinkActive } from "@angular/router";
 
@@ -10,7 +14,7 @@ import { ThemeService } from "../services/app/theme.service";
 @Component({
     selector: "app-navbar",
     standalone: true,
-    imports: [RouterLink, RouterLinkActive],
+    imports: [RouterLink, RouterLinkActive, FontAwesomeModule],
     templateUrl: "./navbar.component.html",
     styleUrl: "./navbar.component.css",
 })
@@ -22,9 +26,16 @@ export class NavbarComponent {
         { name: "FAQ", path: "/faq" },
     ];
 
+    themeIcon: any = null;
+
     constructor(private themeService: ThemeService) {}
+
+    ngOnInit() {
+        this.themeIcon = this.themeService.isDarkMode() ? faSun : faMoon;
+    }
 
     toggleDarkMode() {
         this.themeService.toggleDarkMode();
+        this.themeIcon = this.themeService.isDarkMode() ? faSun : faMoon;
     }
 }
