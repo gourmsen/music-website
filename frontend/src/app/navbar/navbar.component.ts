@@ -1,5 +1,11 @@
+// basic
 import { Component } from "@angular/core";
+
+// router
 import { RouterLink, RouterLinkActive } from "@angular/router";
+
+// services
+import { ThemeService } from "../services/app/theme.service";
 
 @Component({
     selector: "app-navbar",
@@ -16,5 +22,9 @@ export class NavbarComponent {
         { name: "FAQ", path: "/faq" },
     ];
 
-    constructor() {}
+    constructor(private themeService: ThemeService) {}
+
+    toggleDarkMode() {
+        this.themeService.toggleDarkMode();
+    }
 }
