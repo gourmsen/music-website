@@ -1,0 +1,20 @@
+import { Component } from "@angular/core";
+import { RouterLink, RouterLinkActive } from "@angular/router";
+
+@Component({
+    selector: "app-navbar",
+    standalone: true,
+    imports: [RouterLink, RouterLinkActive],
+    templateUrl: "./navbar.component.html",
+    styleUrl: "./navbar.component.css",
+})
+export class NavbarComponent {
+    pageLinks = [
+        { name: "Home", path: "/" },
+        { name: "Tabs", path: "/tabs" },
+        { name: "Music", path: "/music" },
+        { name: "FAQ", path: "/faq" },
+    ];
+
+    constructor() {}
+}
