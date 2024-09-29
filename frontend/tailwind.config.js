@@ -12,6 +12,9 @@ module.exports = {
             animation: {
                 "slide-up": "slide-up 1.5s ease backwards",
                 "slide-up-d-0.5s": "slide-up 1.5s ease 0.5s backwards",
+                "slide-up-d-1s": "slide-up 1.5s ease 1s backwards",
+                "slide-up-d-1.5s": "slide-up 1.5s ease 1.5s backwards",
+                "slide-up-d-2s": "slide-up 1.5s ease 2s backwards",
             },
         },
         container: {

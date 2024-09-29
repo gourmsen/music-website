@@ -1,17 +1,32 @@
-<div class="container">
-    <!-- Title -->
-    <h1 class="py-4
-        text-6xl
-        text-center font-bold
-        text-slate-600 dark:text-zinc-300
-        animate-slide-up">
-        education for everyone.
-    </h1>
-    <h1 class="py-4
-        text-xl
-        text-center font-semibold
-        text-slate-600 dark:text-zinc-300
-        animate-slide-up-d-0.5s">
-        SINCE 2018
-    </h1>
-</div>
+<header class="h-screen">
+    <div class="container">
+        <!-- Title -->
+        <h1 class="pt-32 py-4
+            text-6xl
+            text-center font-bold
+            text-slate-600 dark:text-zinc-300
+            animate-slide-up">
+            education for everyone.
+        </h1>
+
+        <!-- Subtitle -->
+        <h1 class="pt-4 pb-32
+            text-xl
+            text-center font-semibold
+            text-slate-600 dark:text-zinc-300
+            animate-slide-up-d-0.5s">
+            SINCE 2018
+        </h1>
+
+        <!-- Scroll Down Button -->
+        <div class="flex justify-center animate-pulse">
+            <a href="#about" class="flex
+                items-center justify-center rounded-full
+                w-16 h-16
+                bg-slate-600 dark:bg-zinc-300
+                animate-slide-up-d-2s">
+                <fa-icon [icon]="arrowDown" class="text-white dark:text-zinc-900"></fa-icon>
+            </a>
+        </div>
+    </div>
+</header>
