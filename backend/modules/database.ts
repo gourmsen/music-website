@@ -1,10 +1,22 @@
 // basics
-import env from "../app";
+import dotenv from "dotenv";
+import { cleanEnv, port, str } from "envalid";
 
 // database
 import { Database } from "../database/types/database";
 import { Pool } from "pg";
 import { Kysely, PostgresDialect } from "kysely";
+
+// create environment variables conforming to TypeScript
+dotenv.config();
+const env = cleanEnv(process.env, {
+    DB_NAME: str(),
+    DB_USER: str(),
+    DB_PASS: str(),
+    DB_HOST: str(),
+    DB_PORT: port(),
+});
+export default env;
 
 const dialect = new PostgresDialect({
     pool: new Pool({

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import betterLogging from "better-logging";
 import fs from "fs";
 import { cleanEnv, port, str, bool } from "envalid";
+import { CustomError } from "./classes/errors";
 
 // server
 import express from "express";
@@ -12,6 +13,9 @@ import cors from "cors";
 import http from "http";
 import https from "https";
 
+// requests (get)
+import { viewUser } from "./requests/user-detail";
+
 // create environment variables conforming to TypeScript
 dotenv.config();
 const env = cleanEnv(process.env, {
@@ -19,11 +23,6 @@ const env = cleanEnv(process.env, {
     PROD: bool(),
     KEY_PATH: str(),
     CERT_PATH: str(),
-    DB_NAME: str(),
-    DB_USER: str(),
-    DB_PASS: str(),
-    DB_HOST: str(),
-    DB_PORT: port(),
 });
 export default env;
 
@@ -61,6 +60,21 @@ betterLogging(console);
 
 // default
 app.get("/", (req, res) => {});
+
+// user-detail
+app.get("/user-detail", async (req, res) => {
+    let { email } = req.body;
+
+    try {
+        let result = await viewUser(email);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+    }
+});
 
 /*
 <----- EXPRESS LAUNCH ----->
