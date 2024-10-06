@@ -19,6 +19,11 @@ const env = cleanEnv(process.env, {
     PROD: bool(),
     KEY_PATH: str(),
     CERT_PATH: str(),
+    DB_NAME: str(),
+    DB_USER: str(),
+    DB_PASS: str(),
+    DB_HOST: str(),
+    DB_PORT: port(),
 });
 export default env;
 
