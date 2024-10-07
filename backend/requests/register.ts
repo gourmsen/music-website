@@ -1,6 +1,7 @@
 // basic
 import * as userRepo from "../database/repos/user";
 import { UserInsert } from "../database/types/user";
+import bcrypt from "bcrypt";
 
 // errors
 import { DatabaseError, MissingFieldsError, UserAlreadyExistsError } from "../classes/errors";
@@ -26,6 +27,8 @@ export const register = async (userInsert: UserInsert) => {
         if (user) {
             throw new UserAlreadyExistsError(userInsert.email);
         }
+
+        userInsert.password = await bcrypt.hash(userInsert.password, 10);
 
         return await userRepo.createUser(userInsert);
     } catch (error) {

@@ -18,6 +18,7 @@ import { viewUser } from "./requests/user-detail";
 
 // requests (post)
 import { register } from "./requests/register";
+import { login } from "./requests/login";
 
 // create environment variables conforming to TypeScript
 dotenv.config();
@@ -89,6 +90,21 @@ app.post("/register", async (req, res) => {
 
     try {
         let result = await register({ email, password });
+        res.status(200).json(result);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+    }
+});
+
+// login
+app.post("/login", async (req, res) => {
+    let { email, password } = req.body;
+
+    try {
+        let result = await login(email, password);
         res.status(200).json(result);
     } catch (error) {
         res.status((error as CustomError).status).json({

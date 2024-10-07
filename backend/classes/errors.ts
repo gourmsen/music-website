@@ -32,3 +32,9 @@ export class UserAlreadyExistsError extends CustomError {
         super(409, `User with email '${email}' already exists`);
     }
 }
+
+export class InvalidCredentialsError extends CustomError {
+    constructor() {
+        super(401, "Invalid credentials");
+    }
+}
