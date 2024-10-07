@@ -15,8 +15,20 @@ export class DatabaseError extends CustomError {
     }
 }
 
+export class MissingFieldsError extends CustomError {
+    constructor(fields: string[]) {
+        super(400, `Missing fields: ${fields.join(", ")}`);
+    }
+}
+
 export class UserNotFoundError extends CustomError {
     constructor(email: string) {
         super(404, `User with email '${email}' not found`);
+    }
+}
+
+export class UserAlreadyExistsError extends CustomError {
+    constructor(email: string) {
+        super(409, `User with email '${email}' already exists`);
     }
 }

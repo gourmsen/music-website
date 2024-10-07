@@ -9,3 +9,12 @@ export async function findUserByEmail(email: string) {
         .selectAll()
         .executeTakeFirst();
 }
+
+export async function createUser(userInsert: UserInsert) {
+    // prettier-ignore
+    return await db
+        .insertInto("users")
+        .values(userInsert)
+        .returningAll()
+        .executeTakeFirstOrThrow();
+}
