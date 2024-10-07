@@ -1,4 +1,5 @@
 // basic
+import { DefaultResponse } from "../interfaces/default-response";
 import * as userRepo from "../database/repos/user";
 import { UserInsert } from "../database/types/user";
 import bcrypt from "bcrypt";
@@ -30,7 +31,16 @@ export const register = async (userInsert: UserInsert) => {
 
         userInsert.password = await bcrypt.hash(userInsert.password, 10);
 
-        return await userRepo.createUser(userInsert);
+        user = await userRepo.createUser(userInsert);
+
+        let response: DefaultResponse = {
+            message: "User registered successfully",
+            payload: {
+                user: user,
+            },
+        };
+
+        return response;
     } catch (error) {
         if (error instanceof MissingFieldsError || error instanceof UserAlreadyExistsError) {
             throw error;

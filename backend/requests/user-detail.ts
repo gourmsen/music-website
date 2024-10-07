@@ -1,4 +1,5 @@
 // basic
+import { DefaultResponse } from "../interfaces/default-response";
 import * as userRepo from "../database/repos/user";
 
 // errors
@@ -6,6 +7,7 @@ import { DatabaseError, MissingFieldsError, UserNotFoundError } from "../classes
 
 export const viewUser = async (email: string) => {
     try {
+        // check for missing fields
         let missingFields: string[] = [];
 
         if (!email) {
@@ -16,13 +18,22 @@ export const viewUser = async (email: string) => {
             throw new MissingFieldsError(missingFields);
         }
 
+        // check for user
         let user = await userRepo.findUserByEmail(email);
 
         if (!user) {
             throw new UserNotFoundError(email);
         }
 
-        return user;
+        // prepare response
+        let response: DefaultResponse = {
+            message: "User retrieved successfully",
+            payload: {
+                user: user,
+            },
+        };
+
+        return response;
     } catch (error) {
         if (error instanceof MissingFieldsError || error instanceof UserNotFoundError) {
             throw error;
