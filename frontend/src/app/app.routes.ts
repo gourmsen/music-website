@@ -5,6 +5,8 @@ import { HomeComponent } from "./home/home.component";
 import { TabsComponent } from "./tabs/tabs.component";
 import { MusicComponent } from "./music/music.component";
 import { FaqComponent } from "./faq/faq.component";
+import { LoginComponent } from "./login/login.component";
+import { RegisterComponent } from "./register/register.component";
 
 export const routes: Routes = [
     {
@@ -26,5 +28,15 @@ export const routes: Routes = [
         title: "FAQ | Max Niessl",
         path: "faq",
         component: FaqComponent,
+    },
+    {
+        title: "Login | Max Niessl",
+        path: "login",
+        component: LoginComponent,
+    },
+    {
+        title: "Register | Max Niessl",
+        path: "register",
+        component: RegisterComponent,
     },
 ];
