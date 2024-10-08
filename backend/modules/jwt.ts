@@ -3,17 +3,54 @@ import dotenv from "dotenv";
 import { cleanEnv, str } from "envalid";
 import jwt from "jsonwebtoken";
 
+// errors
+import { ExpiredJWTError, InvalidJWTError, MissingJWTError } from "../classes/errors";
+
 // create environment variables conforming to TypeScript
 dotenv.config();
 const env = cleanEnv(process.env, {
     JWT_KEY: str(),
+    JWT_ISSUER: str(),
+    JWT_AUDIENCE: str(),
 });
 export default env;
 
-export const generateToken = async (payload: any) => {
+export const generateToken = async (payload: any, sub: string, exp: string) => {
     return jwt.sign(payload, env.JWT_KEY, {
-        expiresIn: "1h",
-        issuer: "music_website",
-        audience: "music_website_users",
+        issuer: env.JWT_ISSUER,
+        subject: sub,
+        audience: env.JWT_AUDIENCE,
+        expiresIn: exp,
     });
+};
+
+export const verifyToken = async (token: string) => {
+    try {
+        return jwt.verify(token, env.JWT_KEY, {
+            issuer: env.JWT_ISSUER,
+            audience: env.JWT_AUDIENCE,
+        });
+    } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+            throw new ExpiredJWTError();
+        } else if (error instanceof jwt.JsonWebTokenError) {
+            throw new InvalidJWTError();
+        }
+    }
+};
+
+export const fetchToken = async (req: any) => {
+    let token = req.headers.authorization;
+
+    if (!token) {
+        throw new MissingJWTError();
+    }
+
+    if (!token.startsWith("Bearer ")) {
+        throw new InvalidJWTError();
+    }
+
+    token = token.split(" ")[1];
+
+    return token;
 };

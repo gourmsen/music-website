@@ -4,6 +4,7 @@ import betterLogging from "better-logging";
 import fs from "fs";
 import { cleanEnv, port, str, bool } from "envalid";
 import { CustomError } from "./classes/errors";
+import { fetchToken, verifyToken } from "./modules/jwt";
 
 // server
 import express from "express";
@@ -70,6 +71,8 @@ app.get("/user-detail", async (req, res) => {
     let { email } = req.body;
 
     try {
+        let token = await fetchToken(req);
+        await verifyToken(token);
         let result = await viewUser(email);
         res.status(200).json(result);
     } catch (error) {

@@ -38,3 +38,21 @@ export class InvalidCredentialsError extends CustomError {
         super(401, "Invalid credentials");
     }
 }
+
+export class MissingJWTError extends CustomError {
+    constructor() {
+        super(401, "Missing JWT token");
+    }
+}
+
+export class InvalidJWTError extends CustomError {
+    constructor() {
+        super(401, "Invalid JWT token");
+    }
+}
+
+export class ExpiredJWTError extends CustomError {
+    constructor() {
+        super(401, "Expired JWT token");
+    }
+}

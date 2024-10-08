@@ -1,4 +1,6 @@
 // basic
+import dotenv from "dotenv";
+import { cleanEnv, str } from "envalid";
 import { DefaultResponse } from "../interfaces/default-response";
 import * as userRepo from "../database/repos/user";
 import bcrypt from "bcrypt";
@@ -6,6 +8,13 @@ import { generateToken } from "../modules/jwt";
 
 // errors
 import { DatabaseError, MissingFieldsError, InvalidCredentialsError } from "../classes/errors";
+
+// create environment variables conforming to TypeScript
+dotenv.config();
+const env = cleanEnv(process.env, {
+    JWT_EXP_LOGIN: str(),
+});
+export default env;
 
 export const login = async (email: string, password: string) => {
     try {
@@ -39,11 +48,14 @@ export const login = async (email: string, password: string) => {
         }
 
         // generate token
-        let token = await generateToken({
-            sub: user.id,
-            email: user.email,
-            role: user.role,
-        });
+        let token = await generateToken(
+            {
+                email: user.email,
+                role: user.role,
+            },
+            user.id.toString(),
+            env.JWT_EXP_LOGIN
+        );
 
         // prepare response
         let response: DefaultResponse = {
