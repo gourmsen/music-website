@@ -5,9 +5,15 @@ import { CommonModule } from "@angular/common";
 // forms
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from "@angular/forms";
 
+// services
+import { AuthService } from "../services/http/auth.service";
+
 // icons
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
+// interfaces
+import { LoginRequest, LoginResponse } from "../interfaces/auth";
 
 @Component({
     selector: "app-login",
@@ -22,7 +28,9 @@ export class LoginComponent {
     passwordVisible = false;
     passwordIcon = faEye;
 
-    constructor(private formBuilder: FormBuilder) {}
+    loginResponse: LoginResponse;
+
+    constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
@@ -42,5 +50,23 @@ export class LoginComponent {
     togglePasswordVisibility() {
         this.passwordVisible = !this.passwordVisible;
         this.passwordIcon = this.passwordVisible ? faEyeSlash : faEye;
+    }
+
+    login(email: string, password: string) {
+        let request: LoginRequest = {
+            email: email,
+            password: password,
+        };
+
+        this.authService.login(request).subscribe({
+            next: (response) => {
+                this.loginResponse = response.body!;
+            },
+            error: (error) => {
+                if (error.status === 401) {
+                }
+            },
+            complete: () => {},
+        });
     }
 }

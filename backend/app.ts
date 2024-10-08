@@ -28,6 +28,8 @@ const env = cleanEnv(process.env, {
     PROD: bool(),
     KEY_PATH: str(),
     CERT_PATH: str(),
+    FRONTEND_URL: str(),
+    HTTPS: bool(),
 });
 export default env;
 
@@ -50,8 +52,14 @@ if (env.PROD) {
     server = http.createServer(app);
 }
 
+// cors options
+const corsOptions = {
+    origin: env.FRONTEND_URL,
+    credentials: true,
+};
+
 // handle CORS for Angular
-app.use(cors());
+app.use(cors(corsOptions));
 
 // parse JSON body
 app.use(express.json());
@@ -108,6 +116,13 @@ app.post("/login", async (req, res) => {
 
     try {
         let result = await login(email, password);
+        res.cookie("token", result.payload.token, {
+            httpOnly: true,
+            secure: env.HTTPS,
+            sameSite: "strict",
+            maxAge: 1000 * 60 * 60, // 1 hour
+        });
+        delete result.payload.token;
         res.status(200).json(result);
     } catch (error) {
         res.status((error as CustomError).status).json({
