@@ -1,6 +1,7 @@
 // basic
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { ToastComponent } from "../shared/toast/toast.component";
 
 // forms
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -15,10 +16,13 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 // interfaces
 import { LoginRequest, LoginResponse } from "../interfaces/auth";
 
+// enums
+import { ToastTypes } from "../shared/toast/toast.enums";
+
 @Component({
     selector: "app-login",
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule],
+    imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, ToastComponent],
     templateUrl: "./login.component.html",
     styleUrl: "./login.component.css",
 })
@@ -28,11 +32,18 @@ export class LoginComponent {
     passwordVisible = false;
     passwordIcon = faEye;
 
+    toastVisible: boolean;
+    toastType: ToastTypes;
+    toastMessage: string;
+    toastDuration: number;
+
     loginResponse: LoginResponse;
 
     constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
 
     ngOnInit() {
+        this.toastVisible = false;
+
         this.loginForm = this.formBuilder.group({
             email: ["", [Validators.required, Validators.email]],
             password: ["", Validators.required],
@@ -58,15 +69,30 @@ export class LoginComponent {
             password: password,
         };
 
+        this.toastVisible = false;
+
         this.authService.login(request).subscribe({
             next: (response) => {
                 this.loginResponse = response.body!;
+
+                this.toastVisible = true;
+                this.toastType = ToastTypes.Success;
+                this.toastMessage = "Successfully logged in.";
+                this.toastDuration = 5000;
             },
             error: (error) => {
                 if (error.status === 401) {
+                    this.toastVisible = true;
+                    this.toastType = ToastTypes.Danger;
+                    this.toastMessage = "Invalid credentials.";
+                    this.toastDuration = 5000;
                 }
             },
             complete: () => {},
         });
+    }
+
+    onToastClosed() {
+        this.toastVisible = false;
     }
 }

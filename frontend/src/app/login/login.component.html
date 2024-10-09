@@ -48,20 +48,22 @@
                         Password
                     </label>
                     <button class="pt-5" tabindex="-1">
-                        <fa-icon [icon]="passwordIcon" class="text-slate-600 dark:text-white" (click)="togglePasswordVisibility()"></fa-icon>
+                        <fa-icon [icon]="passwordIcon" class="text-slate-600 dark:text-white"
+                            (click)="togglePasswordVisibility()"></fa-icon>
                     </button>
                 </div>
-                <input id="password" [type]="passwordVisible ? 'text' : 'password'" formControlName="password" placeholder="••••••••••" class="w-full p-1.5 mb-1 mr-3
-                    bg-gray-100 dark:bg-zinc-800
-                    text-slate-600 dark:text-white
-                    placeholder:text-gray-300 dark:placeholder:text-zinc-600
-                    border border-gray-200 dark:border-zinc-700
-                    focus:ring focus:ring-gray-100 dark:focus:ring-zinc-800
-                    focus:outline-none
-                    text-sm
-                    rounded-md" [ngClass]="{
-                        'border-red-500 dark:border-red-500': password?.invalid && (password?.dirty || password?.touched)
-                    }">
+                <input id="password" [type]="passwordVisible ? 'text' : 'password'" formControlName="password"
+                    placeholder="••••••••••" class="w-full p-1.5 mb-1 mr-3
+                        bg-gray-100 dark:bg-zinc-800
+                        text-slate-600 dark:text-white
+                        placeholder:text-gray-300 dark:placeholder:text-zinc-600
+                        border border-gray-200 dark:border-zinc-700
+                        focus:ring focus:ring-gray-100 dark:focus:ring-zinc-800
+                        focus:outline-none
+                        text-sm
+                        rounded-md" [ngClass]="{
+                            'border-red-500 dark:border-red-500': password?.invalid && (password?.dirty || password?.touched)
+                        }">
 
                 @if (password?.invalid && (password?.dirty || password?.touched)) {
                 @if (password?.hasError('required')) {
@@ -71,13 +73,13 @@
                 }
 
                 <!-- Submit Button -->
-                <button type="submit" [disabled]="!loginForm.valid" (click)="login(email!.value, password!.value)" class="w-full p-2 mt-4
-                    bg-slate-600 dark:bg-white
-                    disabled:opacity-50
-                    text-white dark:text-zinc-900
-                    text-lg
-                    rounded-md
-                ">
+                <button type="submit" [disabled]="!loginForm.valid" (click)="login(email!.value, password!.value)"
+                    class="w-full p-2 mt-4
+                        bg-slate-600 dark:bg-white
+                        disabled:opacity-50
+                        text-white dark:text-zinc-900
+                        text-lg
+                        rounded-md">
                     Login
                 </button>
 
@@ -100,5 +102,11 @@
                 </div>
             </form>
         </div>
+
+        <!-- Toast -->
+        @if (toastVisible) {
+        <shared-toast [type]="toastType" [message]="toastMessage" [duration]="toastDuration"
+            (toastClosed)="onToastClosed()" class="flex justify-center mt-8"></shared-toast>
+        }
     </div>
 </div>
