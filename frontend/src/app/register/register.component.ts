@@ -5,7 +5,15 @@ import { ToastComponent } from "../shared/toast/toast.component";
 import { RouterLink } from "@angular/router";
 
 // forms
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+    ReactiveFormsModule,
+    FormBuilder,
+    FormGroup,
+    Validators,
+    ValidatorFn,
+    AbstractControl,
+    ValidationErrors,
+} from "@angular/forms";
 
 // services
 import { AuthService } from "../services/http/auth.service";
@@ -47,7 +55,17 @@ export class RegisterComponent {
 
         this.registerForm = this.formBuilder.group({
             email: ["", [Validators.required, Validators.email]],
-            password: ["", Validators.required],
+            password: [
+                "",
+                [
+                    Validators.required,
+                    Validators.minLength(12),
+                    this.lowercaseCharacterValidator(),
+                    this.uppercaseCharacterValidator(),
+                    this.numberCharacterValidator(),
+                    this.specialCharacterValidator(),
+                ],
+            ],
         });
     }
 
@@ -95,5 +113,41 @@ export class RegisterComponent {
 
     onToastClosed() {
         this.toastVisible = false;
+    }
+
+    lowercaseCharacterValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            let pattern = /[a-z]/;
+            let hasCharacter = pattern.test(control.value);
+
+            return hasCharacter ? null : { lowercaseCharacter: { value: control.value } };
+        };
+    }
+
+    uppercaseCharacterValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            let pattern = /[A-Z]/;
+            let hasCharacter = pattern.test(control.value);
+
+            return hasCharacter ? null : { uppercaseCharacter: { value: control.value } };
+        };
+    }
+
+    numberCharacterValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            let pattern = /\d/;
+            let hasCharacter = pattern.test(control.value);
+
+            return hasCharacter ? null : { numberCharacter: { value: control.value } };
+        };
+    }
+
+    specialCharacterValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            let pattern = /[!@#$%^&*(),.?":{}|<>]/;
+            let hasCharacter = pattern.test(control.value);
+
+            return hasCharacter ? null : { specialCharacter: { value: control.value } };
+        };
     }
 }
