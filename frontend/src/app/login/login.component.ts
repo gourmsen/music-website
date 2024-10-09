@@ -2,6 +2,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ToastComponent } from "../shared/toast/toast.component";
+import { RouterLink } from "@angular/router";
 
 // forms
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -22,7 +23,7 @@ import { ToastTypes } from "../shared/toast/toast.enums";
 @Component({
     selector: "app-login",
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, ToastComponent],
+    imports: [CommonModule, RouterLink, ReactiveFormsModule, FontAwesomeModule, ToastComponent],
     templateUrl: "./login.component.html",
     styleUrl: "./login.component.css",
 })

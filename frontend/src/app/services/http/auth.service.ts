@@ -4,7 +4,7 @@ import { environment } from "../../../environments/environment";
 
 // http
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { LoginRequest, LoginResponse } from "../../interfaces/auth";
+import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from "../../interfaces/auth";
 import { catchError } from "rxjs";
 
 // services
@@ -20,6 +20,13 @@ export class AuthService {
         // prettier-ignore
         return this.httpClient
             .post<LoginResponse>(environment.apiUrl + "/login", request, { observe: "response" , withCredentials: true })
+            .pipe(catchError((error) => this.errorHandlerService.handleHttpError(error)));
+    }
+
+    register(request: RegisterRequest) {
+        // prettier-ignore
+        return this.httpClient
+            .post<RegisterResponse>(environment.apiUrl + "/register", request, { observe: "response" })
             .pipe(catchError((error) => this.errorHandlerService.handleHttpError(error)));
     }
 }

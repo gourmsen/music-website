@@ -7,3 +7,13 @@ export interface LoginResponse {
     message: string;
     payload: {};
 }
+
+export interface RegisterRequest {
+    email: string;
+    password: string;
+}
+
+export interface RegisterResponse {
+    message: string;
+    payload: {};
+}
