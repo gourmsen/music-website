@@ -56,6 +56,8 @@ export class ToastComponent {
     autohideToast() {
         this.isVisible = true;
 
+        if (this.duration < 0) return;
+
         setTimeout(() => {
             this.hideToast();
         }, this.duration);

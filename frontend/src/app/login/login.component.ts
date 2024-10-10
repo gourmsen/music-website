@@ -71,19 +71,34 @@ export class LoginComponent {
         };
 
         this.toastVisible = false;
+        setTimeout(() => {
+            this.toastVisible = true;
+        }, 10);
+
+        this.toastType = ToastTypes.Info;
+        this.toastMessage = "Logging in...";
+        this.toastDuration = -1;
 
         this.authService.login(request).subscribe({
             next: (response) => {
                 this.loginResponse = response.body!;
 
-                this.toastVisible = true;
+                this.toastVisible = false;
+                setTimeout(() => {
+                    this.toastVisible = true;
+                }, 10);
+
                 this.toastType = ToastTypes.Success;
                 this.toastMessage = "Successfully logged in.";
                 this.toastDuration = 5000;
             },
             error: (error) => {
                 if (error.status === 401) {
-                    this.toastVisible = true;
+                    this.toastVisible = false;
+                    setTimeout(() => {
+                        this.toastVisible = true;
+                    }, 10);
+
                     this.toastType = ToastTypes.Danger;
                     this.toastMessage = "Invalid credentials.";
                     this.toastDuration = 5000;

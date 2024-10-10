@@ -17,3 +17,12 @@ export interface RegisterResponse {
     message: string;
     payload: {};
 }
+
+export interface VerifyRequest {
+    token: string;
+}
+
+export interface VerifyResponse {
+    message: string;
+    payload: {};
+}

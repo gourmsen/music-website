@@ -7,6 +7,7 @@ import { MusicComponent } from "./music/music.component";
 import { FaqComponent } from "./faq/faq.component";
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
+import { VerifyComponent } from "./verify/verify.component";
 
 export const routes: Routes = [
     {
@@ -38,5 +39,10 @@ export const routes: Routes = [
         title: "Register | Max Niessl",
         path: "register",
         component: RegisterComponent,
+    },
+    {
+        title: "Verify | Max Niessl",
+        path: "verify",
+        component: VerifyComponent,
     },
 ];

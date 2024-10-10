@@ -3,9 +3,16 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
 
 // http
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from "../../interfaces/auth";
+import { HttpClient } from "@angular/common/http";
 import { catchError } from "rxjs";
+import {
+    LoginRequest,
+    LoginResponse,
+    RegisterRequest,
+    RegisterResponse,
+    VerifyRequest,
+    VerifyResponse,
+} from "../../interfaces/auth";
 
 // services
 import { ErrorHandlerService } from "../app/error-handler.service";
@@ -26,7 +33,14 @@ export class AuthService {
     register(request: RegisterRequest) {
         // prettier-ignore
         return this.httpClient
-            .post<RegisterResponse>(environment.apiUrl + "/register", request, { observe: "response" })
+            .post<RegisterResponse>(environment.apiUrl + "/register", request, { observe: "response", withCredentials: true })
+            .pipe(catchError((error) => this.errorHandlerService.handleHttpError(error)));
+    }
+
+    verify(request: VerifyRequest) {
+        // prettier-ignore
+        return this.httpClient
+            .post<VerifyResponse>(environment.apiUrl + "/verify-email", request, { observe: "response", withCredentials: true })
             .pipe(catchError((error) => this.errorHandlerService.handleHttpError(error)));
     }
 }
