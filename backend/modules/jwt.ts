@@ -40,17 +40,11 @@ export const verifyToken = async (token: string) => {
 };
 
 export const fetchToken = async (req: any) => {
-    let token = req.headers.authorization;
+    let token = req.cookies.token;
 
     if (!token) {
         throw new MissingJWTError();
     }
-
-    if (!token.startsWith("Bearer ")) {
-        throw new InvalidJWTError();
-    }
-
-    token = token.split(" ")[1];
 
     return token;
 };

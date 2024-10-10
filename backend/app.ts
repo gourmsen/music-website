@@ -9,6 +9,7 @@ import { fetchToken, verifyToken } from "./modules/jwt";
 // server
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 // http
 import http from "http";
@@ -20,6 +21,7 @@ import { viewUser } from "./requests/user-detail";
 // requests (post)
 import { register } from "./requests/register";
 import { login } from "./requests/login";
+import { verifyEmail } from "./requests/verify-email";
 
 // create environment variables conforming to TypeScript
 dotenv.config();
@@ -63,6 +65,9 @@ app.use(cors(corsOptions));
 
 // parse JSON body
 app.use(express.json());
+
+// parse cookies
+app.use(cookieParser());
 
 // setup better logging
 betterLogging(console);
@@ -123,6 +128,21 @@ app.post("/login", async (req, res) => {
             maxAge: 1000 * 60 * 60, // 1 hour
         });
         delete result.payload.token;
+        res.status(200).json(result);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+    }
+});
+
+// verify-email
+app.post("/verify-email", async (req, res) => {
+    let { token } = req.body;
+
+    try {
+        let result = await verifyEmail(token);
         res.status(200).json(result);
     } catch (error) {
         res.status((error as CustomError).status).json({

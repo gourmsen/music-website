@@ -18,3 +18,12 @@ export async function createUser(userInsert: UserInsert) {
         .returningAll()
         .executeTakeFirstOrThrow();
 }
+
+export async function updateUser(id: number, userUpdate: UserUpdate) {
+    // prettier-ignore
+    await db
+        .updateTable("users")
+        .set(userUpdate)
+        .where("id", "=", id)
+        .execute()
+}

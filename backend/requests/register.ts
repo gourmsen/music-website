@@ -44,13 +44,6 @@ export const register = async (userInsert: UserInsert) => {
 
         user = await userRepo.createUser(userInsert);
 
-        let response: DefaultResponse = {
-            message: "User registered successfully",
-            payload: {
-                user: user,
-            },
-        };
-
         // generate token
         let token = await generateToken(
             {
@@ -68,6 +61,13 @@ export const register = async (userInsert: UserInsert) => {
         let text = "Please verify your email with this link: " + verifyLink;
         let html = `<p>Please verify your email with <a href="${verifyLink}">this link</a></p>`;
         await sendEmail(user.email, subject, text, html);
+
+        let response: DefaultResponse = {
+            message: "User registered successfully",
+            payload: {
+                user: user,
+            },
+        };
 
         return response;
     } catch (error) {
