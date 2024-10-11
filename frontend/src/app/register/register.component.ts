@@ -105,7 +105,7 @@ export class RegisterComponent {
                 this.toastVisible = false;
 
                 this.toastType = ToastTypes.Success;
-                this.toastMessage = "Verification email sent.";
+                this.toastMessage = "Verification email sent";
                 this.toastDuration = 5000;
 
                 setTimeout(() => {
@@ -117,7 +117,7 @@ export class RegisterComponent {
                     this.toastVisible = false;
 
                     this.toastType = ToastTypes.Danger;
-                    this.toastMessage = "User already exists.";
+                    this.toastMessage = "User already exists";
                     this.toastDuration = 5000;
 
                     setTimeout(() => {

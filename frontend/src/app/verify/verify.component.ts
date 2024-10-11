@@ -71,9 +71,9 @@ export class VerifyComponent {
                     this.toastDuration = -1;
 
                     if (error.status === 401) {
-                        this.toastMessage = "Invalid or expired token.";
+                        this.toastMessage = "Invalid or expired token";
                     } else if (error.status === 404) {
-                        this.toastMessage = "User not found.";
+                        this.toastMessage = "User not found";
                     }
 
                     setTimeout(() => {

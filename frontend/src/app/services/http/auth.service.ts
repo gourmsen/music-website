@@ -12,6 +12,8 @@ import {
     RegisterResponse,
     VerifyRequest,
     VerifyResponse,
+    ResendRequest,
+    ResendResponse,
 } from "../../interfaces/auth";
 
 // services
@@ -41,6 +43,13 @@ export class AuthService {
         // prettier-ignore
         return this.httpClient
             .post<VerifyResponse>(environment.apiUrl + "/verify-email", request, { observe: "response", withCredentials: true })
+            .pipe(catchError((error) => this.errorHandlerService.handleHttpError(error)));
+    }
+
+    resend(request: ResendRequest) {
+        // prettier-ignore
+        return this.httpClient
+            .post<ResendResponse>(environment.apiUrl + "/verify-resend", request, { observe: "response", withCredentials: true })
             .pipe(catchError((error) => this.errorHandlerService.handleHttpError(error)));
     }
 }

@@ -19,7 +19,9 @@ export class ToastComponent {
     @Input() type: ToastTypes;
     @Input() message: string;
     @Input() duration: number;
+    @Input() button: string;
     @Output() toastClosed = new EventEmitter<void>();
+    @Output() buttonClicked = new EventEmitter<void>();
 
     closeIcon = faXmark;
 
@@ -66,5 +68,9 @@ export class ToastComponent {
     hideToast() {
         this.isVisible = false;
         this.toastClosed.emit();
+    }
+
+    activateButton() {
+        this.buttonClicked.emit();
     }
 }

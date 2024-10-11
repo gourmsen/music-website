@@ -105,8 +105,8 @@
 
         <!-- Toast -->
         @if (toastVisible) {
-        <shared-toast [type]="toastType" [message]="toastMessage" [duration]="toastDuration"
-            (toastClosed)="onToastClosed()" class="flex justify-center mt-8"></shared-toast>
+        <shared-toast [type]="toastType" [message]="toastMessage" [duration]="toastDuration" [button]="toastButton"
+            (toastClosed)="onToastClosed()" (buttonClicked)="onButtonClicked()" class="flex justify-center mt-8"></shared-toast>
         }
     </div>
 </div>

@@ -26,3 +26,12 @@ export interface VerifyResponse {
     message: string;
     payload: {};
 }
+
+export interface ResendRequest {
+    email: string;
+}
+
+export interface ResendResponse {
+    message: string;
+    payload: {};
+}

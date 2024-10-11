@@ -17,10 +17,20 @@
             {{ message }}
         </p>
 
-        <!-- Close Button -->
+        <!-- Button -->
+        @if (button) {
+        <button (click)="activateButton()" class="p-1 ms-6 me-2 rounded-md
+            bg-slate-600 dark:bg-white">
+            <p class="text-sm
+                text-white dark:text-zinc-900">
+                {{ button }}
+            </p>
+        </button>
+        } @else {
         <button class="ms-6 me-2">
             <fa-icon [icon]="closeIcon" (click)="hideToast()" class="text-gray-500 dark:text-zinc-200"></fa-icon>
         </button>
+        }
     </div>
 </div>
 }
