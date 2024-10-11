@@ -1,22 +1,12 @@
 // basic
-import dotenv from "dotenv";
-import { cleanEnv, str } from "envalid";
 import { DefaultResponse } from "../interfaces/default-response";
 import * as userRepo from "../database/repos/user";
 import { UserInsert } from "../database/types/user";
 import bcrypt from "bcrypt";
-import { sendEmail } from "../modules/email";
-import { generateToken } from "../modules/jwt";
+import { sendVerifyEmail } from "../modules/verify-email";
 
 // errors
 import { DatabaseError, MissingFieldsError, UserAlreadyExistsError } from "../classes/errors";
-
-// create environment variables conforming to TypeScript
-dotenv.config();
-const env = cleanEnv(process.env, {
-    JWT_EXP_EMAIL: str(),
-});
-export default env;
 
 export const register = async (userInsert: UserInsert) => {
     try {
@@ -44,23 +34,8 @@ export const register = async (userInsert: UserInsert) => {
 
         user = await userRepo.createUser(userInsert);
 
-        // generate token
-        let token = await generateToken(
-            {
-                email: user.email,
-                role: user.role,
-            },
-            user.id.toString(),
-            env.JWT_EXP_EMAIL
-        );
-
-        let verifyLink = process.env.FRONTEND_URL + "/verify?token=" + token;
-
-        // send email
-        let subject = "Email Verification";
-        let text = "Please verify your email with this link: " + verifyLink;
-        let html = `<p>Please verify your email with <a href="${verifyLink}">this link</a></p>`;
-        await sendEmail(user.email, subject, text, html);
+        // send verification email
+        await sendVerifyEmail(user);
 
         let response: DefaultResponse = {
             message: "User registered successfully",
