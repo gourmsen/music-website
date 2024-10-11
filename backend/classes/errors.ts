@@ -33,6 +33,12 @@ export class UserAlreadyExistsError extends CustomError {
     }
 }
 
+export class UserNotVerifiedError extends CustomError {
+    constructor() {
+        super(403, "User not verified");
+    }
+}
+
 export class InvalidCredentialsError extends CustomError {
     constructor() {
         super(401, "Invalid credentials");

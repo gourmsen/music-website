@@ -43,30 +43,29 @@ export class VerifyComponent {
             };
 
             this.toastVisible = false;
-            setTimeout(() => {
-                this.toastVisible = true;
-            }, 10);
 
             this.toastType = ToastTypes.Info;
             this.toastMessage = "Verifying email...";
             this.toastDuration = -1;
 
+            setTimeout(() => {
+                this.toastVisible = true;
+            }, 10);
+
             this.authService.verify(request).subscribe({
                 next: (response) => {
                     this.toastVisible = false;
-                    setTimeout(() => {
-                        this.toastVisible = true;
-                    }, 10);
 
                     this.toastType = ToastTypes.Success;
                     this.toastMessage = "Email verified";
                     this.toastDuration = -1;
-                },
-                error: (error) => {
-                    this.toastVisible = false;
+
                     setTimeout(() => {
                         this.toastVisible = true;
                     }, 10);
+                },
+                error: (error) => {
+                    this.toastVisible = false;
 
                     this.toastType = ToastTypes.Danger;
                     this.toastDuration = -1;
@@ -76,6 +75,10 @@ export class VerifyComponent {
                     } else if (error.status === 404) {
                         this.toastMessage = "User not found.";
                     }
+
+                    setTimeout(() => {
+                        this.toastVisible = true;
+                    }, 10);
                 },
                 complete: () => {},
             });
