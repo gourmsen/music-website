@@ -3,14 +3,26 @@ import dotenv from "dotenv";
 import betterLogging from "better-logging";
 import fs from "fs";
 import { cleanEnv, port, str, bool } from "envalid";
+import { CustomError } from "./classes/errors";
+import { fetchToken, verifyToken } from "./modules/jwt";
 
 // server
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 // http
 import http from "http";
 import https from "https";
+
+// requests (get)
+import { viewUser } from "./requests/user-detail";
+
+// requests (post)
+import { register } from "./requests/register";
+import { login } from "./requests/login";
+import { verifyEmail } from "./requests/verify-email";
+import { verifyResend } from "./requests/verify-resend";
 
 // create environment variables conforming to TypeScript
 dotenv.config();
@@ -19,6 +31,8 @@ const env = cleanEnv(process.env, {
     PROD: bool(),
     KEY_PATH: str(),
     CERT_PATH: str(),
+    FRONTEND_URL: str(),
+    HTTPS: bool(),
 });
 export default env;
 
@@ -41,11 +55,20 @@ if (env.PROD) {
     server = http.createServer(app);
 }
 
+// cors options
+const corsOptions = {
+    origin: env.FRONTEND_URL,
+    credentials: true,
+};
+
 // handle CORS for Angular
-app.use(cors());
+app.use(cors(corsOptions));
 
 // parse JSON body
 app.use(express.json());
+
+// parse cookies
+app.use(cookieParser());
 
 // setup better logging
 betterLogging(console);
@@ -56,6 +79,94 @@ betterLogging(console);
 
 // default
 app.get("/", (req, res) => {});
+
+// user-detail
+app.get("/user-detail", async (req, res) => {
+    let { email } = req.body;
+
+    try {
+        let token = await fetchToken(req);
+        await verifyToken(token);
+        let result = await viewUser(email);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+    }
+});
+
+/*
+<----- POST REQUESTS ----->
+*/
+
+// register
+app.post("/register", async (req, res) => {
+    let { email, password } = req.body;
+
+    try {
+        let result = await register({ email, password });
+        res.status(200).json(result);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+    }
+});
+
+// login
+app.post("/login", async (req, res) => {
+    let { email, password } = req.body;
+
+    try {
+        let result = await login(email, password);
+        res.cookie("token", result.payload.token, {
+            httpOnly: true,
+            secure: env.HTTPS,
+            sameSite: "strict",
+            maxAge: 1000 * 60 * 60, // 1 hour
+        });
+        delete result.payload.token;
+        res.status(200).json(result);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+    }
+});
+
+// verify-email
+app.post("/verify-email", async (req, res) => {
+    let { token } = req.body;
+
+    try {
+        let result = await verifyEmail(token);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+    }
+});
+
+// verify-resend
+app.post("/verify-resend", async (req, res) => {
+    let { email } = req.body;
+
+    try {
+        let result = await verifyResend(email);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+    }
+});
 
 /*
 <----- EXPRESS LAUNCH ----->

@@ -1,0 +1,27 @@
+<div class="h-screen">
+    <div class="container">
+        <!-- Verify Card -->
+        <div class="w-1/3 p-8 mt-16 mx-auto justify-center
+            rounded-3xl
+            border border-gray-100 dark:border-zinc-800
+            shadow-lg
+            animate-slide-up-fast">
+            <div class="flex flex-col justify-center items-center">
+                @if (token) {
+                <!-- Header -->
+                <h1 class="text-xl
+                    font-bold
+                    text-slate-600 dark:text-white">
+                    Email Verification
+                </h1>
+                }
+            </div>
+        </div>
+
+        <!-- Toast -->
+        @if (toastVisible) {
+        <shared-toast [type]="toastType" [message]="toastMessage" [duration]="toastDuration"
+            (toastClosed)="onToastClosed()" class="flex justify-center mt-8"></shared-toast>
+        }
+    </div>
+</div>
