@@ -1,11 +1,12 @@
 // basic
 import { DefaultResponse } from "../interfaces/default-response";
 import * as userRepo from "../database/repos/user";
+import { sendResetEmail } from "../modules/reset-email";
 
 // errors
 import { DatabaseError, MissingFieldsError, UserNotFoundError } from "../classes/errors";
 
-export const viewUser = async (email: string) => {
+export const resetPassword = async (email: string) => {
     try {
         // check for missing fields
         let missingFields: string[] = [];
@@ -25,12 +26,13 @@ export const viewUser = async (email: string) => {
             throw new UserNotFoundError();
         }
 
+        // send reset email
+        await sendResetEmail(user);
+
         // prepare response
         let response: DefaultResponse = {
-            message: "User retrieved successfully",
-            payload: {
-                user: user,
-            },
+            message: "Reset email sent",
+            payload: {},
         };
 
         return response;

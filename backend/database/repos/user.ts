@@ -1,6 +1,15 @@
 import { db } from "../../modules/database";
 import { User, UserInsert, UserUpdate } from "../types/user";
 
+export async function findUserById(id: number) {
+    // prettier-ignore
+    return await db
+        .selectFrom("users")
+        .where("id", "=", id)
+        .selectAll()
+        .executeTakeFirst();
+}
+
 export async function findUserByEmail(email: string) {
     // prettier-ignore
     return await db

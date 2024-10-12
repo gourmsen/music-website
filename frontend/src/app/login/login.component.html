@@ -85,7 +85,7 @@
 
                 <div class="flex flex-row pt-2 justify-between">
                     <!-- Forgot Password -->
-                    <a href="#" class="text-slate-600 dark:text-white
+                    <a routerLink="/reset" class="text-slate-600 dark:text-white
                         opacity-50 hover:opacity-100
                         text-sm
                         transition duration-200 ease-in-out">
@@ -106,7 +106,8 @@
         <!-- Toast -->
         @if (toastVisible) {
         <shared-toast [type]="toastType" [message]="toastMessage" [duration]="toastDuration" [button]="toastButton"
-            (toastClosed)="onToastClosed()" (buttonClicked)="onButtonClicked()" class="flex justify-center mt-8"></shared-toast>
+            (toastClosed)="onToastClosed()" (buttonClicked)="onButtonClicked()"
+            class="flex justify-center mt-8"></shared-toast>
         }
     </div>
 </div>
