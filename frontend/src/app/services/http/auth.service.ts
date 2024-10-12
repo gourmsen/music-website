@@ -14,6 +14,8 @@ import {
     VerifyResponse,
     ResendRequest,
     ResendResponse,
+    ResetPasswordRequest,
+    ResetPasswordResponse,
 } from "../../interfaces/auth";
 
 // services
@@ -50,6 +52,13 @@ export class AuthService {
         // prettier-ignore
         return this.httpClient
             .post<ResendResponse>(environment.apiUrl + "/verify-resend", request, { observe: "response", withCredentials: true })
+            .pipe(catchError((error) => this.errorHandlerService.handleHttpError(error)));
+    }
+
+    resetPassword(request: ResetPasswordRequest) {
+        // prettier-ignore
+        return this.httpClient
+            .post<ResetPasswordResponse>(environment.apiUrl + "/reset-password", request, { observe: "response", withCredentials: true })
             .pipe(catchError((error) => this.errorHandlerService.handleHttpError(error)));
     }
 }

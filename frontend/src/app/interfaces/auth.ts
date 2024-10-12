@@ -35,3 +35,12 @@ export interface ResendResponse {
     message: string;
     payload: {};
 }
+
+export interface ResetPasswordRequest {
+    email: string;
+}
+
+export interface ResetPasswordResponse {
+    message: string;
+    payload: {};
+}

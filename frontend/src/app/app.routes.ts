@@ -8,6 +8,7 @@ import { FaqComponent } from "./faq/faq.component";
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { VerifyComponent } from "./verify/verify.component";
+import { ResetComponent } from "./reset/reset.component";
 
 export const routes: Routes = [
     {
@@ -44,5 +45,10 @@ export const routes: Routes = [
         title: "Verify | Max Niessl",
         path: "verify",
         component: VerifyComponent,
+    },
+    {
+        title: "Reset | Max Niessl",
+        path: "reset",
+        component: ResetComponent,
     },
 ];
