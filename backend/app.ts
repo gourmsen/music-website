@@ -23,6 +23,7 @@ import { register } from "./requests/register";
 import { login } from "./requests/login";
 import { verifyEmail } from "./requests/verify-email";
 import { verifyResend } from "./requests/verify-resend";
+import { resetPassword } from "./requests/reset-password";
 
 // create environment variables conforming to TypeScript
 dotenv.config();
@@ -159,6 +160,21 @@ app.post("/verify-resend", async (req, res) => {
 
     try {
         let result = await verifyResend(email);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+    }
+});
+
+// reset-password
+app.post("/reset-password", async (req, res) => {
+    let { email } = req.body;
+
+    try {
+        let result = await resetPassword(email);
         res.status(200).json(result);
     } catch (error) {
         res.status((error as CustomError).status).json({
