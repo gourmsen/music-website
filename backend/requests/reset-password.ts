@@ -23,7 +23,7 @@ export const resetPassword = async (email: string) => {
         let user = await userRepo.findUserByEmail(email);
 
         if (!user) {
-            throw new UserNotFoundError(email);
+            throw new UserNotFoundError();
         }
 
         // send reset email

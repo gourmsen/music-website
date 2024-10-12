@@ -22,7 +22,7 @@ export const viewUser = async (email: string) => {
         let user = await userRepo.findUserByEmail(email);
 
         if (!user) {
-            throw new UserNotFoundError(email);
+            throw new UserNotFoundError();
         }
 
         // prepare response

@@ -27,7 +27,7 @@ export const register = async (userInsert: UserInsert) => {
         let user = await userRepo.findUserByEmail(userInsert.email);
 
         if (user) {
-            throw new UserAlreadyExistsError(userInsert.email);
+            throw new UserAlreadyExistsError();
         }
 
         userInsert.password = await bcrypt.hash(userInsert.password, 10);

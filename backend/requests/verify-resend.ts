@@ -23,7 +23,7 @@ export const verifyResend = async (email: string) => {
         let user = await userRepo.findUserByEmail(email);
 
         if (!user) {
-            throw new UserNotFoundError(email);
+            throw new UserNotFoundError();
         }
 
         // send email

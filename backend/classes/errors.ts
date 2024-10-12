@@ -22,14 +22,14 @@ export class MissingFieldsError extends CustomError {
 }
 
 export class UserNotFoundError extends CustomError {
-    constructor(email: string) {
-        super(404, `User with email '${email}' not found`);
+    constructor() {
+        super(404, `User not found`);
     }
 }
 
 export class UserAlreadyExistsError extends CustomError {
-    constructor(email: string) {
-        super(409, `User with email '${email}' already exists`);
+    constructor() {
+        super(409, `User already exists`);
     }
 }
 
