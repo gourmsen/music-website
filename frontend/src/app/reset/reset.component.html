@@ -42,13 +42,83 @@
                     }
 
                     <!-- Submit Button -->
-                    <button type="submit" [disabled]="!emailForm.valid" (click)="resetPassword(email!.value)" class="w-full p-2 mt-4
+                    <button type="submit" [disabled]="!emailForm.valid" (click)="sendResetEmail(email!.value)" class="w-full p-2 mt-4
                         bg-slate-600 dark:bg-white
                         disabled:opacity-50
                         text-white dark:text-zinc-900
                         text-lg
                         rounded-md">
                         Send Reset Email
+                    </button>
+                </form>
+                } @else {
+                <!-- Form -->
+                <form [formGroup]="passwordForm" class="flex flex-col
+                    animate-slide-up-fast-d-0.2s">
+                    <!-- Password -->
+                    <button class="pt-5 pb-3" tabindex="-1">
+                        <fa-icon [icon]="passwordIcon" class="text-slate-600 dark:text-white"
+                            (click)="togglePasswordVisibility()"></fa-icon>
+                    </button>
+                    <input id="password" [type]="passwordVisible ? 'text' : 'password'" formControlName="password"
+                        maxlength="30" placeholder="••••••••••" class="w-full p-1.5 mb-1
+                            bg-gray-100 dark:bg-zinc-800
+                            text-slate-600 dark:text-white
+                            placeholder:text-gray-300 dark:placeholder:text-zinc-600
+                            border border-gray-200 dark:border-zinc-700
+                            focus:ring focus:ring-gray-100 dark:focus:ring-zinc-800
+                            focus:outline-none
+                            text-sm
+                            rounded-md" [ngClass]="{
+                                'border-red-500 dark:border-red-500': password?.invalid && (password?.dirty || password?.touched)
+                            }">
+
+                    @if (password?.invalid && (password?.dirty || password?.touched)) {
+                    @if (password?.hasError('required')) {
+                    <p class="text-xs
+                        text-red-500">Required</p>
+                    } @else {
+                    @if (password?.hasError('minlength')) {
+                    <p class="text-xs
+                        text-red-500">
+                        • Minimum 12 characters
+                    </p>
+                    }
+                    @if (password?.hasError('lowercaseCharacter')) {
+                    <p class="text-xs
+                        text-red-500">
+                        • At least one lowercase character
+                    </p>
+                    }
+                    @if (password?.hasError('uppercaseCharacter')) {
+                    <p class="text-xs
+                        text-red-500">
+                        • At least one uppercase character
+                    </p>
+                    }
+                    @if (password?.hasError('numberCharacter')) {
+                    <p class="text-xs
+                        text-red-500">
+                        • At least one number
+                    </p>
+                    }
+                    @if (password?.hasError('specialCharacter')) {
+                    <p class="text-xs
+                        text-red-500">
+                        • At least one special character (e.g. "!", "#" or "$")
+                    </p>
+                    }
+                    }
+                    }
+
+                    <!-- Submit Button -->
+                    <button type="submit" [disabled]="!passwordForm.valid" (click)="updatePassword(password!.value)" class="w-full p-2 mt-4
+                        bg-slate-600 dark:bg-white
+                        disabled:opacity-50
+                        text-white dark:text-zinc-900
+                        text-lg
+                        rounded-md">
+                        Update Password
                     </button>
                 </form>
                 }
@@ -58,8 +128,7 @@
         <!-- Toast -->
         @if (toastVisible) {
         <shared-toast [type]="toastType" [message]="toastMessage" [duration]="toastDuration"
-            (toastClosed)="onToastClosed()"
-            class="flex justify-center mt-8"></shared-toast>
+            (toastClosed)="onToastClosed()" class="flex justify-center mt-8"></shared-toast>
         }
     </div>
 </div>
