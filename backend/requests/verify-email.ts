@@ -4,13 +4,7 @@ import * as userRepo from "../database/repos/user";
 import { verifyToken } from "../modules/jwt";
 
 // errors
-import {
-    DatabaseError,
-    MissingFieldsError,
-    ExpiredJWTError,
-    InvalidJWTError,
-    UserNotFoundError,
-} from "../classes/errors";
+import { handleError, MissingFieldsError, UserNotFoundError } from "../classes/errors";
 
 export const verifyEmail = async (token: string) => {
     try {
@@ -54,15 +48,6 @@ export const verifyEmail = async (token: string) => {
 
         return response;
     } catch (error) {
-        if (
-            error instanceof MissingFieldsError ||
-            error instanceof ExpiredJWTError ||
-            error instanceof InvalidJWTError ||
-            error instanceof UserNotFoundError
-        ) {
-            throw error;
-        } else {
-            throw new DatabaseError();
-        }
+        throw handleError(error);
     }
 };

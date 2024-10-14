@@ -6,13 +6,7 @@ import { UserUpdate } from "../database/types/user";
 import bcrypt from "bcrypt";
 
 // errors
-import {
-    DatabaseError,
-    MissingFieldsError,
-    InvalidJWTError,
-    ExpiredJWTError,
-    UserNotFoundError,
-} from "../classes/errors";
+import { handleError, MissingFieldsError, UserNotFoundError } from "../classes/errors";
 
 export const updateUser = async (token: string, data: any) => {
     try {
@@ -68,15 +62,6 @@ export const updateUser = async (token: string, data: any) => {
 
         return response;
     } catch (error) {
-        if (
-            error instanceof MissingFieldsError ||
-            error instanceof InvalidJWTError ||
-            error instanceof ExpiredJWTError ||
-            error instanceof UserNotFoundError
-        ) {
-            throw error;
-        } else {
-            throw new DatabaseError();
-        }
+        throw handleError(error);
     }
 };

@@ -1,3 +1,5 @@
+import { DatabaseError as PgDatabaseError } from "pg";
+
 export class CustomError extends Error {
     public status: number;
 
@@ -6,6 +8,12 @@ export class CustomError extends Error {
         this.name = this.constructor.name;
 
         this.status = status;
+    }
+}
+
+export class UnknownError extends CustomError {
+    constructor() {
+        super(500, "Unknown error");
     }
 }
 
@@ -60,5 +68,25 @@ export class InvalidJWTError extends CustomError {
 export class ExpiredJWTError extends CustomError {
     constructor() {
         super(401, "Expired JWT token");
+    }
+}
+
+export function handleError(error: any): CustomError {
+    switch (true) {
+        case error instanceof UnknownError:
+        case error instanceof DatabaseError:
+        case error instanceof MissingFieldsError:
+        case error instanceof UserNotFoundError:
+        case error instanceof UserAlreadyExistsError:
+        case error instanceof UserNotVerifiedError:
+        case error instanceof InvalidCredentialsError:
+        case error instanceof MissingJWTError:
+        case error instanceof InvalidJWTError:
+        case error instanceof ExpiredJWTError:
+            throw error;
+        case error instanceof PgDatabaseError:
+            throw new DatabaseError();
+        default:
+            throw new UnknownError();
     }
 }

@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import { sendVerifyEmail } from "../modules/verify-email";
 
 // errors
-import { DatabaseError, MissingFieldsError, UserAlreadyExistsError } from "../classes/errors";
+import { handleError, MissingFieldsError, UserAlreadyExistsError } from "../classes/errors";
 
 export const register = async (userInsert: UserInsert) => {
     try {
@@ -46,10 +46,6 @@ export const register = async (userInsert: UserInsert) => {
 
         return response;
     } catch (error) {
-        if (error instanceof MissingFieldsError || error instanceof UserAlreadyExistsError) {
-            throw error;
-        } else {
-            throw new DatabaseError();
-        }
+        throw handleError(error);
     }
 };

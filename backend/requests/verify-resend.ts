@@ -4,7 +4,7 @@ import * as userRepo from "../database/repos/user";
 import { sendVerifyEmail } from "../modules/verify-email";
 
 // errors
-import { DatabaseError, MissingFieldsError, UserNotFoundError } from "../classes/errors";
+import { handleError, MissingFieldsError, UserNotFoundError } from "../classes/errors";
 
 export const verifyResend = async (email: string) => {
     try {
@@ -36,10 +36,6 @@ export const verifyResend = async (email: string) => {
 
         return response;
     } catch (error) {
-        if (error instanceof MissingFieldsError || error instanceof UserNotFoundError) {
-            throw error;
-        } else {
-            throw new DatabaseError();
-        }
+        throw handleError(error);
     }
 };

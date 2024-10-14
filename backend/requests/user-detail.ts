@@ -3,7 +3,7 @@ import { DefaultResponse } from "../interfaces/default-response";
 import * as userRepo from "../database/repos/user";
 
 // errors
-import { DatabaseError, MissingFieldsError, UserNotFoundError } from "../classes/errors";
+import { handleError, MissingFieldsError, UserNotFoundError } from "../classes/errors";
 
 export const viewUser = async (email: string) => {
     try {
@@ -35,10 +35,6 @@ export const viewUser = async (email: string) => {
 
         return response;
     } catch (error) {
-        if (error instanceof MissingFieldsError || error instanceof UserNotFoundError) {
-            throw error;
-        } else {
-            throw new DatabaseError();
-        }
+        throw handleError(error);
     }
 };
