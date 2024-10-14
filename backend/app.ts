@@ -1,6 +1,5 @@
 // basics
 import dotenv from "dotenv";
-import betterLogging from "better-logging";
 import fs from "fs";
 import { cleanEnv, port, str, bool } from "envalid";
 import { CustomError } from "./classes/errors";
@@ -14,6 +13,9 @@ import cookieParser from "cookie-parser";
 // http
 import http from "http";
 import https from "https";
+
+// loggers
+import { systemLogger, apiLogger } from "./modules/logger";
 
 // requests (get)
 import { viewUser } from "./requests/user-detail";
@@ -72,9 +74,6 @@ app.use(express.json());
 // parse cookies
 app.use(cookieParser());
 
-// setup better logging
-betterLogging(console);
-
 /*
 <----- GET REQUESTS ----->
 */
@@ -84,6 +83,7 @@ app.get("/", (req, res) => {});
 
 // user-detail
 app.get("/user-detail", async (req, res) => {
+    apiLogger.http("GET /user-detail");
     let { email } = req.body;
 
     try {
@@ -105,6 +105,7 @@ app.get("/user-detail", async (req, res) => {
 
 // register
 app.post("/register", async (req, res) => {
+    apiLogger.http("POST /register");
     let { email, password } = req.body;
 
     try {
@@ -120,6 +121,7 @@ app.post("/register", async (req, res) => {
 
 // login
 app.post("/login", async (req, res) => {
+    apiLogger.http("POST /login");
     let { email, password } = req.body;
 
     try {
@@ -142,6 +144,7 @@ app.post("/login", async (req, res) => {
 
 // verify-email
 app.post("/verify-email", async (req, res) => {
+    apiLogger.http("POST /verify-email");
     let { token } = req.body;
 
     try {
@@ -157,6 +160,7 @@ app.post("/verify-email", async (req, res) => {
 
 // verify-resend
 app.post("/verify-resend", async (req, res) => {
+    apiLogger.http("POST /verify-resend");
     let { email } = req.body;
 
     try {
@@ -172,6 +176,7 @@ app.post("/verify-resend", async (req, res) => {
 
 // reset-password
 app.post("/reset-password", async (req, res) => {
+    apiLogger.http("POST /reset-password");
     let { email } = req.body;
 
     try {
@@ -191,6 +196,7 @@ app.post("/reset-password", async (req, res) => {
 
 // user-update
 app.patch("/user-update", async (req, res) => {
+    apiLogger.http("PATCH /user-update");
     let { token } = req.body;
     let data = req.body;
 
@@ -212,5 +218,5 @@ app.patch("/user-update", async (req, res) => {
 
 // activate app and listen on port
 server.listen(env.PORT, () => {
-    console.log("API is online on port " + env.PORT);
+    systemLogger.info("API is online on port " + env.PORT);
 });
