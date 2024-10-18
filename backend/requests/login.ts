@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import { generateToken } from "../modules/jwt";
 
 // errors
-import { DatabaseError, MissingFieldsError, InvalidCredentialsError, UserNotVerifiedError } from "../classes/errors";
+import { handleError, InvalidCredentialsError, MissingFieldsError, UserNotVerifiedError } from "../classes/errors";
 
 // create environment variables conforming to TypeScript
 dotenv.config();
@@ -72,14 +72,6 @@ export const login = async (email: string, password: string) => {
 
         return response;
     } catch (error) {
-        if (
-            error instanceof MissingFieldsError ||
-            error instanceof InvalidCredentialsError ||
-            error instanceof UserNotVerifiedError
-        ) {
-            throw error;
-        } else {
-            throw new DatabaseError();
-        }
+        throw handleError(error);
     }
 };

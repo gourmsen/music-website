@@ -4,7 +4,7 @@ import * as userRepo from "../database/repos/user";
 import { sendResetEmail } from "../modules/reset-email";
 
 // errors
-import { DatabaseError, MissingFieldsError, UserNotFoundError } from "../classes/errors";
+import { handleError, MissingFieldsError, UserNotFoundError } from "../classes/errors";
 
 export const resetPassword = async (email: string) => {
     try {
@@ -37,10 +37,6 @@ export const resetPassword = async (email: string) => {
 
         return response;
     } catch (error) {
-        if (error instanceof MissingFieldsError || error instanceof UserNotFoundError) {
-            throw error;
-        } else {
-            throw new DatabaseError();
-        }
+        throw handleError(error);
     }
 };

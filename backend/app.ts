@@ -1,6 +1,5 @@
 // basics
 import dotenv from "dotenv";
-import betterLogging from "better-logging";
 import fs from "fs";
 import { cleanEnv, port, str, bool } from "envalid";
 import { CustomError } from "./classes/errors";
@@ -14,6 +13,9 @@ import cookieParser from "cookie-parser";
 // http
 import http from "http";
 import https from "https";
+
+// loggers
+import { systemLogger, apiLogger } from "./modules/logger";
 
 // requests (get)
 import { viewUser } from "./requests/user-detail";
@@ -72,9 +74,6 @@ app.use(express.json());
 // parse cookies
 app.use(cookieParser());
 
-// setup better logging
-betterLogging(console);
-
 /*
 <----- GET REQUESTS ----->
 */
@@ -86,16 +85,22 @@ app.get("/", (req, res) => {});
 app.get("/user-detail", async (req, res) => {
     let { email } = req.body;
 
+    logApiMessage("http", "Request", req, { email: email });
+
     try {
         let token = await fetchToken(req);
         await verifyToken(token);
         let result = await viewUser(email);
         res.status(200).json(result);
+
+        logApiMessage("info", "Success", req, { email: email });
     } catch (error) {
         res.status((error as CustomError).status).json({
             name: (error as CustomError).name,
             message: (error as CustomError).message,
         });
+
+        logApiMessage("warn", "Failure", req, { email: email }, (error as CustomError).status);
     }
 });
 
@@ -107,20 +112,28 @@ app.get("/user-detail", async (req, res) => {
 app.post("/register", async (req, res) => {
     let { email, password } = req.body;
 
+    logApiMessage("http", "Request", req, { email: email });
+
     try {
         let result = await register({ email, password });
         res.status(200).json(result);
+
+        logApiMessage("info", "Success", req, { email: email });
     } catch (error) {
         res.status((error as CustomError).status).json({
             name: (error as CustomError).name,
             message: (error as CustomError).message,
         });
+
+        logApiMessage("warn", "Failure", req, { email: email }, (error as CustomError).status);
     }
 });
 
 // login
 app.post("/login", async (req, res) => {
     let { email, password } = req.body;
+
+    logApiMessage("http", "Request", req, { email: email });
 
     try {
         let result = await login(email, password);
@@ -132,11 +145,15 @@ app.post("/login", async (req, res) => {
         });
         delete result.payload.token;
         res.status(200).json(result);
+
+        logApiMessage("info", "Success", req, { email: email });
     } catch (error) {
         res.status((error as CustomError).status).json({
             name: (error as CustomError).name,
             message: (error as CustomError).message,
         });
+
+        logApiMessage("warn", "Failure", req, { email: email }, (error as CustomError).status);
     }
 });
 
@@ -144,14 +161,20 @@ app.post("/login", async (req, res) => {
 app.post("/verify-email", async (req, res) => {
     let { token } = req.body;
 
+    logApiMessage("http", "Request", req, { token: token });
+
     try {
         let result = await verifyEmail(token);
         res.status(200).json(result);
+
+        logApiMessage("info", "Success", req, { token: token });
     } catch (error) {
         res.status((error as CustomError).status).json({
             name: (error as CustomError).name,
             message: (error as CustomError).message,
         });
+
+        logApiMessage("warn", "Failure", req, { token: token }, (error as CustomError).status);
     }
 });
 
@@ -159,14 +182,20 @@ app.post("/verify-email", async (req, res) => {
 app.post("/verify-resend", async (req, res) => {
     let { email } = req.body;
 
+    logApiMessage("http", "Request", req, { email: email });
+
     try {
         let result = await verifyResend(email);
         res.status(200).json(result);
+
+        logApiMessage("info", "Success", req, { email: email });
     } catch (error) {
         res.status((error as CustomError).status).json({
             name: (error as CustomError).name,
             message: (error as CustomError).message,
         });
+
+        logApiMessage("warn", "Failure", req, { email: email }, (error as CustomError).status);
     }
 });
 
@@ -174,14 +203,20 @@ app.post("/verify-resend", async (req, res) => {
 app.post("/reset-password", async (req, res) => {
     let { email } = req.body;
 
+    logApiMessage("http", "Request", req, { email: email });
+
     try {
         let result = await resetPassword(email);
         res.status(200).json(result);
+
+        logApiMessage("info", "Success", req, { email: email });
     } catch (error) {
         res.status((error as CustomError).status).json({
             name: (error as CustomError).name,
             message: (error as CustomError).message,
         });
+
+        logApiMessage("warn", "Failure", req, { email: email }, (error as CustomError).status);
     }
 });
 
@@ -194,15 +229,24 @@ app.patch("/user-update", async (req, res) => {
     let { token } = req.body;
     let data = req.body;
 
+    let prunedData = { ...data };
+    delete prunedData.password;
+
+    logApiMessage("http", "Request", req, prunedData);
+
     try {
         token = token || (await fetchToken(req));
         let result = await updateUser(token, data);
         res.status(200).json(result);
+
+        logApiMessage("info", "Success", req, prunedData);
     } catch (error) {
         res.status((error as CustomError).status).json({
             name: (error as CustomError).name,
             message: (error as CustomError).message,
         });
+
+        logApiMessage("warn", "Failure", req, prunedData, (error as CustomError).status);
     }
 });
 
@@ -212,5 +256,41 @@ app.patch("/user-update", async (req, res) => {
 
 // activate app and listen on port
 server.listen(env.PORT, () => {
-    console.log("API is online on port " + env.PORT);
+    systemLogger.info("API is online on port " + env.PORT);
 });
+
+function logApiMessage(level: string, message: string, req: any, data?: any, status?: number) {
+    let defaults = {
+        ip: req.ip,
+        method: req.method,
+        url: req.url,
+    };
+
+    let parameters: string = "";
+    for (let key in data) {
+        parameters += `${key}: ${data[key]}, `;
+    }
+    parameters = parameters.slice(0, -2);
+    parameters = `(${parameters})`;
+
+    message += ` ${parameters}`;
+
+    if (status) message += ` -> ${status}`;
+
+    switch (level) {
+        case "http":
+            apiLogger.http(message, defaults);
+            break;
+        case "info":
+            apiLogger.info(message, defaults);
+            break;
+        case "warn":
+            apiLogger.warn(message, defaults);
+            break;
+        case "error":
+            apiLogger.error(message, defaults);
+            break;
+        default:
+            apiLogger.info(message, defaults);
+    }
+}
