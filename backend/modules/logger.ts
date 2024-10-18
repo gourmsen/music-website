@@ -12,11 +12,19 @@ const env = cleanEnv(process.env, {
 });
 export default env;
 
-// custom format
-const logFormat = format.combine(
+// system format
+const systemFormat = format.combine(
     format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
     format.printf(({ timestamp, level, message }) => {
-        return `${timestamp} ${level}: ${message}`;
+        return `[${timestamp}] [${level.toUpperCase()}]: ${message}`;
+    })
+);
+
+// API format
+const apiFormat = format.combine(
+    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+    format.printf(({ timestamp, ip, level, method, url, message }) => {
+        return `[${timestamp}] [${ip}] [${level.toUpperCase()}] [${method}] [${url}]: ${message}`;
     })
 );
 
@@ -26,11 +34,11 @@ export const systemLogger = createLogger({
     defaultMeta: { service: "system" },
     transports: [
         new transports.Console({
-            format: format.combine(format.colorize(), format.align(), logFormat),
+            format: systemFormat,
         }),
         new transports.File({
             filename: "logs/system.log",
-            format: format.combine(format.uncolorize(), logFormat, format.json(), format.prettyPrint()),
+            format: systemFormat,
         }),
     ],
 });
@@ -41,11 +49,11 @@ export const apiLogger = createLogger({
     defaultMeta: { service: "api" },
     transports: [
         new transports.Console({
-            format: format.combine(format.colorize(), format.align(), logFormat),
+            format: apiFormat,
         }),
         new transports.File({
             filename: "logs/api.log",
-            format: format.combine(format.uncolorize(), logFormat, format.json(), format.prettyPrint()),
+            format: apiFormat,
         }),
     ],
 });
