@@ -19,6 +19,7 @@ import { systemLogger, apiLogger } from "./modules/logger";
 
 // requests (get)
 import { viewUser } from "./requests/user-detail";
+import { listSongs } from "./database/repos/song";
 
 // requests (post)
 import { register } from "./requests/register";
@@ -101,6 +102,25 @@ app.get("/user-detail", async (req, res) => {
         });
 
         logApiMessage("warn", "Failure", req, { email: email }, (error as CustomError).status);
+    }
+});
+
+// song-list
+app.get("/song-list", async (req, res) => {
+    logApiMessage("http", "Request", req);
+
+    try {
+        let result = await listSongs();
+        res.status(200).json(result);
+
+        logApiMessage("info", "Success", req);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+
+        logApiMessage("warn", "Failure", req, null, (error as CustomError).status);
     }
 });
 
