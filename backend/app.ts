@@ -19,7 +19,7 @@ import { systemLogger, apiLogger } from "./modules/logger";
 
 // requests (get)
 import { viewUser } from "./requests/user-detail";
-import { listSongs } from "./database/repos/song";
+import { listSongs } from "./requests/song-list";
 
 // requests (post)
 import { register } from "./requests/register";
@@ -286,14 +286,16 @@ function logApiMessage(level: string, message: string, req: any, data?: any, sta
         url: req.url,
     };
 
-    let parameters: string = "";
-    for (let key in data) {
-        parameters += `${key}: ${data[key]}, `;
-    }
-    parameters = parameters.slice(0, -2);
-    parameters = `(${parameters})`;
+    if (data) {
+        let parameters: string = "";
+        for (let key in data) {
+            parameters += `${key}: ${data[key]}, `;
+        }
+        parameters = parameters.slice(0, -2);
+        parameters = `(${parameters})`;
 
-    message += ` ${parameters}`;
+        message += ` ${parameters}`;
+    }
 
     if (status) message += ` -> ${status}`;
 
