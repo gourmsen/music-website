@@ -8,13 +8,13 @@ import { SongService } from "../services/http/song.service";
 import { SongListResponse } from "../interfaces/song";
 
 @Component({
-    selector: "app-tabs",
+    selector: "app-songs",
     standalone: true,
     imports: [],
-    templateUrl: "./tabs.component.html",
-    styleUrl: "./tabs.component.css",
+    templateUrl: "./songs.component.html",
+    styleUrl: "./songs.component.css",
 })
-export class TabsComponent {
+export class SongsComponent {
     songsSortedByArtist: any;
 
     songListResponse: SongListResponse;
