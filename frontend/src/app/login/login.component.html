@@ -7,7 +7,7 @@
             shadow-lg
             animate-slide-up-fast">
             <form [formGroup]="loginForm" class="flex flex-col 
-                animate-slide-up-fast-d-0.2s">
+                animate-slide-up-fast-d-0-2s">
                 <h1 class="pb-8
                     text-xl
                     font-bold
@@ -24,8 +24,8 @@
                     text-slate-600 dark:text-white
                     placeholder:text-gray-300 dark:placeholder:text-zinc-600
                     border border-gray-200 dark:border-zinc-700
-                    focus:ring focus:ring-gray-100 dark:focus:ring-zinc-800
-                    focus:outline-none
+                    focus:ring-3 focus:ring-gray-100 dark:focus:ring-zinc-800
+                    focus:outline-hidden
                     text-sm
                     rounded-md" [ngClass]="{
                         'border-red-500 dark:border-red-500': email?.invalid && (email?.dirty || email?.touched)
@@ -58,8 +58,8 @@
                         text-slate-600 dark:text-white
                         placeholder:text-gray-300 dark:placeholder:text-zinc-600
                         border border-gray-200 dark:border-zinc-700
-                        focus:ring focus:ring-gray-100 dark:focus:ring-zinc-800
-                        focus:outline-none
+                        focus:ring-3 focus:ring-gray-100 dark:focus:ring-zinc-800
+                        focus:outline-hidden
                         text-sm
                         rounded-md" [ngClass]="{
                             'border-red-500 dark:border-red-500': password?.invalid && (password?.dirty || password?.touched)
