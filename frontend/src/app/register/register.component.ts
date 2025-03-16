@@ -23,7 +23,6 @@ import { ToastTypes } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-register",
-    standalone: true,
     imports: [CommonModule, RouterLink, ReactiveFormsModule, FontAwesomeModule, ToastComponent],
     templateUrl: "./register.component.html",
     styleUrl: "./register.component.css",

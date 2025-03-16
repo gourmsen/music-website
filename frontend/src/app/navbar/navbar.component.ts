@@ -13,7 +13,6 @@ import { ThemeService } from "../services/app/theme.service";
 
 @Component({
     selector: "app-navbar",
-    standalone: true,
     imports: [RouterLink, FontAwesomeModule],
     templateUrl: "./navbar.component.html",
     styleUrl: "./navbar.component.css",

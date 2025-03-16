@@ -10,7 +10,6 @@ import * as about from "../../assets/texts/about.json";
 
 @Component({
     selector: "app-home",
-    standalone: true,
     imports: [FontAwesomeModule],
     templateUrl: "./home.component.html",
     styleUrl: "./home.component.css",

@@ -25,7 +25,6 @@ import { ToastTypes } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-reset",
-    standalone: true,
     imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, ToastComponent],
     templateUrl: "./reset.component.html",
     styleUrl: "./reset.component.css",

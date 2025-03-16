@@ -22,7 +22,6 @@ import { ToastTypes } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-login",
-    standalone: true,
     imports: [CommonModule, RouterLink, ReactiveFormsModule, FontAwesomeModule, ToastComponent],
     templateUrl: "./login.component.html",
     styleUrl: "./login.component.css",

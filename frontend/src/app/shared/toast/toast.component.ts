@@ -10,7 +10,6 @@ import { ToastTypes } from "./toast.enums";
 
 @Component({
     selector: "shared-toast",
-    standalone: true,
     imports: [FontAwesomeModule],
     templateUrl: "./toast.component.html",
     styleUrl: "./toast.component.css",

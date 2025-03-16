@@ -10,7 +10,6 @@ import { SongListResponse } from "../interfaces/song";
 
 @Component({
     selector: "app-songs",
-    standalone: true,
     imports: [CommonModule],
     templateUrl: "./songs.component.html",
     styleUrl: "./songs.component.css",

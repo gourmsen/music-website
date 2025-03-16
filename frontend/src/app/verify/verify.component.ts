@@ -14,7 +14,6 @@ import { ToastTypes } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-verify",
-    standalone: true,
     imports: [ToastComponent],
     templateUrl: "./verify.component.html",
     styleUrl: "./verify.component.css",

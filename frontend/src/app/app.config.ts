@@ -1,5 +1,5 @@
 // basic
-import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from "@angular/core";
+import { ApplicationConfig, provideZoneChangeDetection, inject, provideAppInitializer } from "@angular/core";
 import { provideRouter } from "@angular/router";
 import { routes } from "./app.routes";
 import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
@@ -12,13 +12,10 @@ export const appConfig: ApplicationConfig = {
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes),
         provideHttpClient(withInterceptorsFromDi()),
-        ThemeService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initializeTheme,
-            deps: [ThemeService],
-            multi: true,
-        },
+        provideAppInitializer(() => {
+            const initializerFn = initializeTheme(inject(ThemeService));
+            return initializerFn();
+        }),
     ],
 };
 
