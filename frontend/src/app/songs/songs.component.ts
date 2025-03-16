@@ -1,5 +1,6 @@
 // basic
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 // services
 import { SongService } from "../services/http/song.service";
@@ -10,7 +11,7 @@ import { SongListResponse } from "../interfaces/song";
 @Component({
     selector: "app-songs",
     standalone: true,
-    imports: [],
+    imports: [CommonModule],
     templateUrl: "./songs.component.html",
     styleUrl: "./songs.component.css",
 })

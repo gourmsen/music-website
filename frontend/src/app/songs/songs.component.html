@@ -1,3 +1,38 @@
-<div class="container">
-    <p>songs works!</p>
-</div>
+<header>
+    <div class="container"></div>
+</header>
+
+<section id="songTable" class="h-screen">
+    <div class="container">
+        <div class="overflow-x-auto rounded-lg">
+            <table class="w-full text-sm text-left
+                text-slate-600 dark:text-zinc-300
+                border border-gray-100 dark:border-zinc-800">
+                <thead class="text-xs font-semibold uppercase
+                    shadow-sm">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Artist</th>
+                        <th scope="col" class="px-6 py-3">Album</th>
+                        <th scope="col" class="px-6 py-3">Title</th>
+                        <th scope="col" class="px-6 py-3 text-center">Difficulty</th>
+                        <th scope="col" class="px-6 py-3 text-center">Created</th>
+                        <th scope="col" class="px-6 py-3 text-center">Updated</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (song of songsSortedByArtist; track song.id) {
+                    <tr>
+                        <td class="px-6 py-4">{{ song.artist }}</td>
+                        <td class="px-6 py-4">{{ song.album }}</td>
+                        <td class="px-6 py-4">{{ song.title }}</td>
+                        <td class="px-6 py-4 text-center">{{ song.difficulty }}</td>
+                        <td class="px-6 py-4 text-center">{{ song.created_at | date: 'dd.MM.yyyy' }}</td>
+                        <td class="px-6 py-4 text-center">{{ song.updated_at | date: 'dd.MM.yyyy' }}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
