@@ -4,3 +4,10 @@ export interface SongListResponse {
         songs: any;
     };
 }
+
+export interface SongDetailResponse {
+    message: string;
+    payload: {
+        song: any;
+    };
+}

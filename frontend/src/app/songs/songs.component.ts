@@ -2,6 +2,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ToastComponent } from "../shared/toast/toast.component";
+import { Router } from "@angular/router";
 
 // forms
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -41,7 +42,7 @@ export class SongsComponent {
 
     songListResponse: SongListResponse;
 
-    constructor(private formBuilder: FormBuilder, private songService: SongService) {}
+    constructor(private formBuilder: FormBuilder, private songService: SongService, private router: Router) {}
 
     ngOnInit() {
         this.toastVisible = false;
@@ -125,7 +126,7 @@ export class SongsComponent {
     }
 
     onSongClick(songId: number) {
-        // TODO: add logic to handle song click
+        this.router.navigate(["/songs", songId]);
     }
 
     onToastClosed() {
