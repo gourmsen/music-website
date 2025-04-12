@@ -71,6 +71,12 @@ export class ExpiredJWTError extends CustomError {
     }
 }
 
+export class SongNotFoundError extends CustomError {
+    constructor() {
+        super(404, `Song not found`);
+    }
+}
+
 export function handleError(error: any): CustomError {
     switch (true) {
         case error instanceof UnknownError:
@@ -83,6 +89,7 @@ export function handleError(error: any): CustomError {
         case error instanceof MissingJWTError:
         case error instanceof InvalidJWTError:
         case error instanceof ExpiredJWTError:
+        case error instanceof SongNotFoundError:
             throw error;
         case error instanceof PgDatabaseError:
             throw new DatabaseError();
