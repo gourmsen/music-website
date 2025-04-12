@@ -10,6 +10,7 @@
     --animate-slide-up-d-2s: slide-up 1.5s ease 2s backwards;
     --animate-slide-up-fast: slide-up 0.8s ease backwards;
     --animate-slide-up-fast-d-0-2s: slide-up 0.8s ease 0.2s backwards;
+    --animate-fade-in: fade-in 1.5s ease backwards;
 
     @keyframes slide-up {
         0% {
@@ -19,6 +20,16 @@
         }
         100% {
             transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fade-in {
+        0% {
+            opacity: 0;
+            filter: blur(5px);
+        }
+        100% {
             opacity: 1;
         }
     }
