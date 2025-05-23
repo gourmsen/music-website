@@ -55,15 +55,7 @@ export class SongsComponent {
             this.filterSongs();
         });
 
-        this.toastVisible = false;
-
-        this.toastType = ToastType.Info;
-        this.toastMessage = "Loading songs...";
-        this.toastDuration = -1;
-
-        setTimeout(() => {
-            this.toastVisible = true;
-        }, 10);
+        this.showToast(ToastType.Info, "Loading songs...", -1);
 
         this.songService.list().subscribe({
             next: (response) => {
@@ -89,15 +81,7 @@ export class SongsComponent {
                 this.songsLoaded = true;
             },
             error: (error) => {
-                this.toastVisible = false;
-
-                this.toastType = ToastType.Danger;
-                this.toastMessage = "Unable to retrieve songs";
-                this.toastDuration = 5000;
-
-                setTimeout(() => {
-                    this.toastVisible = true;
-                }, 10);
+                this.showToast(ToastType.Danger, "Unable to retrieve songs", 5000);
 
                 this.songsLoaded = false;
             },
@@ -131,5 +115,17 @@ export class SongsComponent {
 
     onToastClosed() {
         this.toastVisible = false;
+    }
+
+    showToast(type: ToastType, message: string, duration: number) {
+        this.toastVisible = false;
+
+        this.toastType = type;
+        this.toastMessage = message;
+        this.toastDuration = duration;
+
+        setTimeout(() => {
+            this.toastVisible = true;
+        }, 10);
     }
 }

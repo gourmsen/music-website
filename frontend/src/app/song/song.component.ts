@@ -38,13 +38,7 @@ export class SongComponent {
     ngOnInit() {
         this.toastVisible = false;
 
-        this.toastType = ToastType.Info;
-        this.toastMessage = "Loading songs...";
-        this.toastDuration = -1;
-
-        setTimeout(() => {
-            this.toastVisible = true;
-        }, 10);
+        this.showToast(ToastType.Info, "Loading songs...", -1);
 
         // read song list and extract song
         this.songService
@@ -52,15 +46,7 @@ export class SongComponent {
             .pipe(
                 take(1),
                 catchError((err) => {
-                    this.toastVisible = false;
-
-                    this.toastType = ToastType.Danger;
-                    this.toastMessage = "Unable to retrieve songs";
-                    this.toastDuration = 5000;
-
-                    setTimeout(() => {
-                        this.toastVisible = true;
-                    }, 10);
+                    this.showToast(ToastType.Danger, "Unable to retrieve songs", 5000);
 
                     this.songsLoaded = false;
 
@@ -77,15 +63,7 @@ export class SongComponent {
                 // map id to song
                 map((id) => this.findSongById(id)),
                 catchError((err) => {
-                    this.toastVisible = false;
-
-                    this.toastType = ToastType.Warning;
-                    this.toastMessage = "Song not found";
-                    this.toastDuration = 5000;
-
-                    setTimeout(() => {
-                        this.toastVisible = true;
-                    }, 10);
+                    this.showToast(ToastType.Warning, "Song not found", 5000);
 
                     this.songsLoaded = false;
 
@@ -150,5 +128,17 @@ export class SongComponent {
 
     onToastClosed() {
         this.toastVisible = false;
+    }
+
+    showToast(type: ToastType, message: string, duration: number) {
+        this.toastVisible = false;
+
+        this.toastType = type;
+        this.toastMessage = message;
+        this.toastDuration = duration;
+
+        setTimeout(() => {
+            this.toastVisible = true;
+        }, 10);
     }
 }

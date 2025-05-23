@@ -84,41 +84,17 @@ export class RegisterComponent {
             password: password,
         };
 
-        this.toastVisible = false;
-
-        this.toastType = ToastType.Info;
-        this.toastMessage = "Setting up your account...";
-        this.toastDuration = -1;
-
-        setTimeout(() => {
-            this.toastVisible = true;
-        }, 10);
+        this.showToast(ToastType.Info, "Setting up your account...", -1);
 
         this.authService.register(request).subscribe({
             next: (response) => {
                 this.registerResponse = response.body!;
 
-                this.toastVisible = false;
-
-                this.toastType = ToastType.Success;
-                this.toastMessage = "Verification email sent";
-                this.toastDuration = 5000;
-
-                setTimeout(() => {
-                    this.toastVisible = true;
-                }, 10);
+                this.showToast(ToastType.Success, "Verification email sent", 5000);
             },
             error: (error) => {
                 if (error.status === 409) {
-                    this.toastVisible = false;
-
-                    this.toastType = ToastType.Danger;
-                    this.toastMessage = "User already exists";
-                    this.toastDuration = 5000;
-
-                    setTimeout(() => {
-                        this.toastVisible = true;
-                    }, 10);
+                    this.showToast(ToastType.Danger, "User already exists", 5000);
                 }
             },
             complete: () => {},
@@ -127,5 +103,17 @@ export class RegisterComponent {
 
     onToastClosed() {
         this.toastVisible = false;
+    }
+
+    showToast(type: ToastType, message: string, duration: number) {
+        this.toastVisible = false;
+
+        this.toastType = type;
+        this.toastMessage = message;
+        this.toastDuration = duration;
+
+        setTimeout(() => {
+            this.toastVisible = true;
+        }, 10);
     }
 }

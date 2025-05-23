@@ -99,40 +99,16 @@ export class ResetComponent {
             email: email,
         };
 
-        this.toastVisible = false;
-
-        this.toastType = ToastType.Info;
-        this.toastMessage = "Sending email...";
-        this.toastDuration = -1;
-
-        setTimeout(() => {
-            this.toastVisible = true;
-        }, 10);
+        this.showToast(ToastType.Info, "Sending email...", -1);
 
         this.authService.resetPassword(request).subscribe({
             next: (response) => {
                 this.resetPasswordResponse = response.body!;
 
-                this.toastVisible = false;
-
-                this.toastType = ToastType.Success;
-                this.toastMessage = "Reset email sent";
-                this.toastDuration = -1;
-
-                setTimeout(() => {
-                    this.toastVisible = true;
-                }, 10);
+                this.showToast(ToastType.Success, "Reset email sent", 5000);
             },
             error: (error) => {
-                this.toastVisible = false;
-
-                this.toastType = ToastType.Success;
-                this.toastMessage = "Reset email sent";
-                this.toastDuration = -1;
-
-                setTimeout(() => {
-                    this.toastVisible = true;
-                }, 10);
+                this.showToast(ToastType.Danger, "Unable to send reset email", 5000);
             },
             complete: () => {},
         });
@@ -144,45 +120,20 @@ export class ResetComponent {
             password: password,
         };
 
-        this.toastVisible = false;
-
-        this.toastType = ToastType.Info;
-        this.toastMessage = "Updating password...";
-        this.toastDuration = -1;
-
-        setTimeout(() => {
-            this.toastVisible = true;
-        }, 10);
+        this.showToast(ToastType.Info, "Updating password...", -1);
 
         this.userService.update(request).subscribe({
             next: (response) => {
                 this.userUpdateResponse = response.body!;
 
-                this.toastVisible = false;
-
-                this.toastType = ToastType.Success;
-                this.toastMessage = "Password updated";
-                this.toastDuration = 5000;
-
-                setTimeout(() => {
-                    this.toastVisible = true;
-                }, 10);
+                this.showToast(ToastType.Success, "Password updated", 5000);
             },
             error: (error) => {
-                this.toastVisible = false;
-
-                this.toastType = ToastType.Danger;
-                this.toastDuration = 5000;
-
                 if (error.status === 401) {
-                    this.toastMessage = "Invalid or expired token";
+                    this.showToast(ToastType.Danger, "Invalid or expired token", 5000);
                 } else if (error.status === 404) {
-                    this.toastMessage = "User not found";
+                    this.showToast(ToastType.Danger, "User not found", 5000);
                 }
-
-                setTimeout(() => {
-                    this.toastVisible = true;
-                }, 10);
             },
             complete: () => {},
         });
@@ -190,5 +141,17 @@ export class ResetComponent {
 
     onToastClosed() {
         this.toastVisible = false;
+    }
+
+    showToast(type: ToastType, message: string, duration: number) {
+        this.toastVisible = false;
+
+        this.toastType = type;
+        this.toastMessage = message;
+        this.toastDuration = duration;
+
+        setTimeout(() => {
+            this.toastVisible = true;
+        }, 10);
     }
 }
