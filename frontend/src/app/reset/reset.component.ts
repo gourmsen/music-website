@@ -133,6 +133,8 @@ export class ResetComponent {
                     this.showToast(ToastType.Danger, "Invalid or expired token", 5000);
                 } else if (error.status === 404) {
                     this.showToast(ToastType.Danger, "User not found", 5000);
+                } else {
+                    this.showToast(ToastType.Danger, "Unable to update password", 5000);
                 }
             },
             complete: () => {},

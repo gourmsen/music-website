@@ -52,6 +52,8 @@ export class VerifyComponent {
                         this.showToast(ToastType.Danger, "Invalid or expired token", 5000);
                     } else if (error.status === 404) {
                         this.showToast(ToastType.Danger, "User not found", 5000);
+                    } else {
+                        this.showToast(ToastType.Danger, "Unable to verify email", 5000);
                     }
                 },
                 complete: () => {},

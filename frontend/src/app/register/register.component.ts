@@ -95,6 +95,8 @@ export class RegisterComponent {
             error: (error) => {
                 if (error.status === 409) {
                     this.showToast(ToastType.Danger, "User already exists", 5000);
+                } else {
+                    this.showToast(ToastType.Danger, "Unable to create account", 5000);
                 }
             },
             complete: () => {},

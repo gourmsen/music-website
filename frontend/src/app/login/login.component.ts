@@ -84,6 +84,8 @@ export class LoginComponent {
                     this.showToast(ToastType.Danger, "Invalid credentials", 5000, "");
                 } else if (error.status === 403) {
                     this.showToast(ToastType.Warning, "User not verified", -1, "Resend");
+                } else {
+                    this.showToast(ToastType.Danger, "Unable to log in", 5000, "");
                 }
             },
             complete: () => {},
@@ -120,7 +122,9 @@ export class LoginComponent {
 
                 this.showToast(ToastType.Success, "Verification email sent", 5000, "");
             },
-            error: (error) => {},
+            error: (error) => {
+                this.showToast(ToastType.Danger, "Unable to send verification email", 5000, "");
+            },
             complete: () => {},
         });
     }
