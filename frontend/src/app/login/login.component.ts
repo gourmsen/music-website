@@ -18,7 +18,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { LoginRequest, LoginResponse, ResendRequest, ResendResponse } from "../interfaces/auth";
 
 // enums
-import { ToastTypes } from "../shared/toast/toast.enums";
+import { ToastType } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-login",
@@ -33,7 +33,7 @@ export class LoginComponent {
     passwordIcon = faEye;
 
     toastVisible: boolean;
-    toastType: ToastTypes;
+    toastType: ToastType;
     toastMessage: string;
     toastDuration: number;
     toastButton: string;
@@ -73,7 +73,7 @@ export class LoginComponent {
 
         this.toastVisible = false;
 
-        this.toastType = ToastTypes.Info;
+        this.toastType = ToastType.Info;
         this.toastMessage = "Logging in...";
         this.toastDuration = -1;
         this.toastButton = "";
@@ -88,7 +88,7 @@ export class LoginComponent {
 
                 this.toastVisible = false;
 
-                this.toastType = ToastTypes.Success;
+                this.toastType = ToastType.Success;
                 this.toastMessage = "Successfully logged in";
                 this.toastDuration = 5000;
                 this.toastButton = "";
@@ -100,7 +100,7 @@ export class LoginComponent {
             error: (error) => {
                 this.toastVisible = false;
 
-                this.toastType = ToastTypes.Danger;
+                this.toastType = ToastType.Danger;
                 this.toastDuration = 5000;
 
                 if (error.status === 401) {
@@ -130,7 +130,7 @@ export class LoginComponent {
 
         this.toastVisible = false;
 
-        this.toastType = ToastTypes.Info;
+        this.toastType = ToastType.Info;
         this.toastMessage = "Resending verification email...";
         this.toastDuration = -1;
         this.toastButton = "";
@@ -145,7 +145,7 @@ export class LoginComponent {
 
                 this.toastVisible = false;
 
-                this.toastType = ToastTypes.Success;
+                this.toastType = ToastType.Success;
                 this.toastMessage = "Verification email sent";
                 this.toastDuration = 5000;
                 this.toastButton = "";

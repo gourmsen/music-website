@@ -12,7 +12,7 @@ import { SongService } from "../services/http/song.service";
 import { Song } from "../interfaces/song";
 
 // enums
-import { ToastTypes } from "../shared/toast/toast.enums";
+import { ToastType } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-song",
@@ -29,7 +29,7 @@ export class SongComponent {
     songsOfAlbum: Song[] = [];
 
     toastVisible: boolean;
-    toastType: ToastTypes;
+    toastType: ToastType;
     toastMessage: string;
     toastDuration: number;
 
@@ -38,7 +38,7 @@ export class SongComponent {
     ngOnInit() {
         this.toastVisible = false;
 
-        this.toastType = ToastTypes.Info;
+        this.toastType = ToastType.Info;
         this.toastMessage = "Loading songs...";
         this.toastDuration = -1;
 
@@ -54,7 +54,7 @@ export class SongComponent {
                 catchError((err) => {
                     this.toastVisible = false;
 
-                    this.toastType = ToastTypes.Danger;
+                    this.toastType = ToastType.Danger;
                     this.toastMessage = "Unable to retrieve songs";
                     this.toastDuration = 5000;
 
@@ -79,7 +79,7 @@ export class SongComponent {
                 catchError((err) => {
                     this.toastVisible = false;
 
-                    this.toastType = ToastTypes.Warning;
+                    this.toastType = ToastType.Warning;
                     this.toastMessage = "Song not found";
                     this.toastDuration = 5000;
 

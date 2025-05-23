@@ -21,7 +21,7 @@ import { ResetPasswordRequest, ResetPasswordResponse } from "../interfaces/auth"
 import { UserUpdateRequest, UserUpdateResponse } from "../interfaces/user";
 
 // enums
-import { ToastTypes } from "../shared/toast/toast.enums";
+import { ToastType } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-reset",
@@ -39,7 +39,7 @@ export class ResetComponent {
     passwordIcon = faEye;
 
     toastVisible: boolean;
-    toastType: ToastTypes;
+    toastType: ToastType;
     toastMessage: string;
     toastDuration: number;
 
@@ -101,7 +101,7 @@ export class ResetComponent {
 
         this.toastVisible = false;
 
-        this.toastType = ToastTypes.Info;
+        this.toastType = ToastType.Info;
         this.toastMessage = "Sending email...";
         this.toastDuration = -1;
 
@@ -115,7 +115,7 @@ export class ResetComponent {
 
                 this.toastVisible = false;
 
-                this.toastType = ToastTypes.Success;
+                this.toastType = ToastType.Success;
                 this.toastMessage = "Reset email sent";
                 this.toastDuration = -1;
 
@@ -126,7 +126,7 @@ export class ResetComponent {
             error: (error) => {
                 this.toastVisible = false;
 
-                this.toastType = ToastTypes.Success;
+                this.toastType = ToastType.Success;
                 this.toastMessage = "Reset email sent";
                 this.toastDuration = -1;
 
@@ -146,7 +146,7 @@ export class ResetComponent {
 
         this.toastVisible = false;
 
-        this.toastType = ToastTypes.Info;
+        this.toastType = ToastType.Info;
         this.toastMessage = "Updating password...";
         this.toastDuration = -1;
 
@@ -160,7 +160,7 @@ export class ResetComponent {
 
                 this.toastVisible = false;
 
-                this.toastType = ToastTypes.Success;
+                this.toastType = ToastType.Success;
                 this.toastMessage = "Password updated";
                 this.toastDuration = 5000;
 
@@ -171,7 +171,7 @@ export class ResetComponent {
             error: (error) => {
                 this.toastVisible = false;
 
-                this.toastType = ToastTypes.Danger;
+                this.toastType = ToastType.Danger;
                 this.toastDuration = 5000;
 
                 if (error.status === 401) {

@@ -10,7 +10,7 @@ import { AuthService } from "../services/http/auth.service";
 import { VerifyRequest, VerifyResponse } from "../interfaces/auth";
 
 // enums
-import { ToastTypes } from "../shared/toast/toast.enums";
+import { ToastType } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-verify",
@@ -22,7 +22,7 @@ export class VerifyComponent {
     token: string | null;
 
     toastVisible: boolean;
-    toastType: ToastTypes;
+    toastType: ToastType;
     toastMessage: string;
     toastDuration: number;
 
@@ -43,7 +43,7 @@ export class VerifyComponent {
 
             this.toastVisible = false;
 
-            this.toastType = ToastTypes.Info;
+            this.toastType = ToastType.Info;
             this.toastMessage = "Verifying email...";
             this.toastDuration = -1;
 
@@ -55,7 +55,7 @@ export class VerifyComponent {
                 next: (response) => {
                     this.toastVisible = false;
 
-                    this.toastType = ToastTypes.Success;
+                    this.toastType = ToastType.Success;
                     this.toastMessage = "Email verified";
                     this.toastDuration = -1;
 
@@ -66,7 +66,7 @@ export class VerifyComponent {
                 error: (error) => {
                     this.toastVisible = false;
 
-                    this.toastType = ToastTypes.Danger;
+                    this.toastType = ToastType.Danger;
                     this.toastDuration = -1;
 
                     if (error.status === 401) {

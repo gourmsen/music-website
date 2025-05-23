@@ -19,7 +19,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { RegisterRequest, RegisterResponse } from "../interfaces/auth";
 
 // enums
-import { ToastTypes } from "../shared/toast/toast.enums";
+import { ToastType } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-register",
@@ -34,7 +34,7 @@ export class RegisterComponent {
     passwordIcon = faEye;
 
     toastVisible: boolean;
-    toastType: ToastTypes;
+    toastType: ToastType;
     toastMessage: string;
     toastDuration: number;
 
@@ -86,7 +86,7 @@ export class RegisterComponent {
 
         this.toastVisible = false;
 
-        this.toastType = ToastTypes.Info;
+        this.toastType = ToastType.Info;
         this.toastMessage = "Setting up your account...";
         this.toastDuration = -1;
 
@@ -100,7 +100,7 @@ export class RegisterComponent {
 
                 this.toastVisible = false;
 
-                this.toastType = ToastTypes.Success;
+                this.toastType = ToastType.Success;
                 this.toastMessage = "Verification email sent";
                 this.toastDuration = 5000;
 
@@ -112,7 +112,7 @@ export class RegisterComponent {
                 if (error.status === 409) {
                     this.toastVisible = false;
 
-                    this.toastType = ToastTypes.Danger;
+                    this.toastType = ToastType.Danger;
                     this.toastMessage = "User already exists";
                     this.toastDuration = 5000;
 

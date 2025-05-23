@@ -1,4 +1,4 @@
-export enum ToastTypes {
+export enum ToastType {
     Success = "success",
     Warning = "warning",
     Danger = "danger",

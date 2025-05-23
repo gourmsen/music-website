@@ -18,7 +18,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { SongListResponse } from "../interfaces/song";
 
 // enums
-import { ToastTypes } from "../shared/toast/toast.enums";
+import { ToastType } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-songs",
@@ -36,7 +36,7 @@ export class SongsComponent {
     searchIcon = faMagnifyingGlass;
 
     toastVisible: boolean;
-    toastType: ToastTypes;
+    toastType: ToastType;
     toastMessage: string;
     toastDuration: number;
 
@@ -57,7 +57,7 @@ export class SongsComponent {
 
         this.toastVisible = false;
 
-        this.toastType = ToastTypes.Info;
+        this.toastType = ToastType.Info;
         this.toastMessage = "Loading songs...";
         this.toastDuration = -1;
 
@@ -91,7 +91,7 @@ export class SongsComponent {
             error: (error) => {
                 this.toastVisible = false;
 
-                this.toastType = ToastTypes.Danger;
+                this.toastType = ToastType.Danger;
                 this.toastMessage = "Unable to retrieve songs";
                 this.toastDuration = 5000;
 
