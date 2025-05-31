@@ -108,6 +108,22 @@ export class SongComponent {
         return this.song?.difficulty;
     }
 
+    get video_url() {
+        return this.song?.video_url;
+    }
+
+    get isolated_url() {
+        return this.song?.isolated_url;
+    }
+
+    get backing_url() {
+        return this.song?.backing_url;
+    }
+
+    get tab_url() {
+        return this.song?.tab_url;
+    }
+
     get created_at() {
         return this.song?.created_at;
     }

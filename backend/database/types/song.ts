@@ -7,8 +7,12 @@ export interface Song {
     artist: ColumnType<string>;
     album: ColumnType<string>;
     difficulty: ColumnType<number>;
-    created_at?: ColumnType<Date>;
-    updated_at?: ColumnType<Date>;
+    video_url?: ColumnType<string>;
+    isolated_url?: ColumnType<string>;
+    backing_url?: ColumnType<string>;
+    tab_url?: ColumnType<string>;
+    created_at: ColumnType<Date>;
+    updated_at: ColumnType<Date>;
 }
 
 export type SongSelect = Selectable<Song>;

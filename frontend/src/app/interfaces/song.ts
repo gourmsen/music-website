@@ -19,6 +19,10 @@ export interface Song {
     artist: string;
     album: string;
     difficulty: string;
+    video_url?: string;
+    isolated_url?: string;
+    backing_url?: string;
+    tab_url?: string;
     created_at: string;
     updated_at: string;
 }
