@@ -1,5 +1,5 @@
 @if (songsLoaded) {
-<header>
+<header class="pb-14">
     <div class="container">
         <div class="flex justify-between gap-6 px-4 py-3 animate-slide-up-fast">
             <div class="pt-4">
@@ -12,7 +12,7 @@
 
                     <p class="text-md font-bold
                         text-slate-300 dark:text-zinc-600">
-                        #{{ track_number }}
+                        #{{ trackNumber }}
                     </p>
                 </div>
 
@@ -43,6 +43,40 @@
         </div>
     </div>
 </header>
+
+<section id="video">
+    <div class="container">
+        <div class="flex justify-center py-3 animate-slide-up-fast">
+            <button type="button" class="px-4 py-2 text-sm font-medium rounded-s-lg
+                    text-slate-600 dark:text-zinc-300
+                    hover:bg-slate-100 hover:dark:bg-zinc-800
+                    border border-gray-100 dark:border-zinc-800"
+                [ngClass]="{'bg-slate-100 dark:bg-zinc-800': selectedVideo === 0}" (click)="onSwitchVideo(0)">
+                Full Video
+            </button>
+            <button type="button" class="px-4 py-2 text-sm font-medium
+                    text-slate-600 dark:text-zinc-300
+                    hover:bg-slate-100 hover:dark:bg-zinc-800
+                    border-t border-b border-gray-100 dark:border-zinc-800"
+                [ngClass]="{'bg-slate-100 dark:bg-zinc-800': selectedVideo === 1}" (click)="onSwitchVideo(1)">
+                Guitar Only
+            </button>
+            <button type="button" class="px-4 py-2 text-sm font-medium rounded-e-lg
+                    text-slate-600 dark:text-zinc-300
+                    hover:bg-slate-100 hover:dark:bg-zinc-800
+                    border border-gray-100 dark:border-zinc-800"
+                [ngClass]="{'bg-slate-100 dark:bg-zinc-800': selectedVideo === 2}" (click)="onSwitchVideo(2)">
+                Backing Track
+            </button>
+        </div>
+
+        <div class="flex justify-center animate-fade-in">
+            @if (currentVideoUrl) {
+            <youtube-player [videoId]="currentVideoUrl" loadApi="true" />
+            }
+        </div>
+    </div>
+</section>
 }
 
 <!-- Toast -->

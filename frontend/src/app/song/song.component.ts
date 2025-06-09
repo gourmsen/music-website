@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { ToastComponent } from "../shared/toast/toast.component";
 import { ActivatedRoute, ParamMap, RouterModule } from "@angular/router";
 import { catchError, EMPTY, map, switchMap, take, tap } from "rxjs";
+import { YouTubePlayer } from "@angular/youtube-player";
 
 // services
 import { SongService } from "../services/http/song.service";
@@ -16,7 +17,7 @@ import { ToastType } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-song",
-    imports: [CommonModule, RouterModule, ToastComponent],
+    imports: [CommonModule, RouterModule, ToastComponent, YouTubePlayer],
     templateUrl: "./song.component.html",
     styleUrl: "./song.component.css",
 })
@@ -27,6 +28,9 @@ export class SongComponent {
     song: Song;
 
     songsOfAlbum: Song[] = [];
+
+    currentVideoUrl: string;
+    selectedVideo: number;
 
     toastVisible: boolean;
     toastType: ToastType;
@@ -79,6 +83,11 @@ export class SongComponent {
 
                     this.toastVisible = false;
                     this.songsLoaded = true;
+                }),
+
+                // set current video url
+                tap(() => {
+                    this.onSwitchVideo(0);
                 })
             )
             .subscribe();
@@ -88,7 +97,7 @@ export class SongComponent {
         return this.song?.id;
     }
 
-    get track_number() {
+    get trackNumber() {
         return this.song?.track_number;
     }
 
@@ -108,27 +117,27 @@ export class SongComponent {
         return this.song?.difficulty;
     }
 
-    get video_url() {
+    get videoUrl() {
         return this.song?.video_url;
     }
 
-    get isolated_url() {
+    get isolatedUrl() {
         return this.song?.isolated_url;
     }
 
-    get backing_url() {
+    get backingUrl() {
         return this.song?.backing_url;
     }
 
-    get tab_url() {
+    get tabUrl() {
         return this.song?.tab_url;
     }
 
-    get created_at() {
+    get createdAt() {
         return this.song?.created_at;
     }
 
-    get updated_at() {
+    get updatedAt() {
         return this.song?.updated_at;
     }
 
@@ -139,6 +148,27 @@ export class SongComponent {
             return song;
         } else {
             throw new Error();
+        }
+    }
+
+    onSwitchVideo(type: number) {
+        switch (type) {
+            case 0:
+                this.currentVideoUrl = this.videoUrl || "";
+                this.selectedVideo = 0;
+                break;
+            case 1:
+                this.currentVideoUrl = this.isolatedUrl || "";
+                this.selectedVideo = 1;
+                break;
+            case 2:
+                this.currentVideoUrl = this.backingUrl || "";
+                this.selectedVideo = 2;
+                break;
+            default:
+                this.currentVideoUrl = this.videoUrl || "";
+                this.selectedVideo = 0;
+                break;
         }
     }
 
