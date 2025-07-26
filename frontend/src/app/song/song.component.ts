@@ -9,6 +9,10 @@ import { YouTubePlayer } from "@angular/youtube-player";
 // services
 import { SongService } from "../services/http/song.service";
 
+// icons
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { faCircleDown } from "@fortawesome/free-solid-svg-icons";
+
 // interfaces
 import { Song } from "../interfaces/song";
 
@@ -17,7 +21,7 @@ import { ToastType } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-song",
-    imports: [CommonModule, RouterModule, ToastComponent, YouTubePlayer],
+    imports: [CommonModule, RouterModule, ToastComponent, YouTubePlayer, FontAwesomeModule],
     templateUrl: "./song.component.html",
     styleUrl: "./song.component.css",
 })
@@ -31,6 +35,8 @@ export class SongComponent {
 
     currentVideoUrl: string;
     selectedVideo: number;
+
+    downloadIcon = faCircleDown;
 
     toastVisible: boolean;
     toastType: ToastType;

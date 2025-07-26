@@ -68,6 +68,13 @@
                 [ngClass]="{'bg-slate-100 dark:bg-zinc-800': selectedVideo === 2}" (click)="onSwitchVideo(2)">
                 Backing Track
             </button>
+            <a class="px-4 py-2 ms-2 rounded-lg
+                    text-slate-600 dark:text-zinc-300
+                    hover:bg-slate-100 hover:dark:bg-zinc-800
+                    border border-gray-100 dark:border-zinc-800"
+                [href]="tabUrl">
+                <fa-icon [icon]="downloadIcon" />
+            </a>
         </div>
 
         <div class="flex justify-center animate-fade-in">
