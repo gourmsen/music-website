@@ -13,15 +13,14 @@ import { ThemeService } from "../services/app/theme.service";
 
 @Component({
     selector: "app-navbar",
-    standalone: true,
-    imports: [RouterLink, RouterLinkActive, FontAwesomeModule],
+    imports: [RouterLink, FontAwesomeModule],
     templateUrl: "./navbar.component.html",
     styleUrl: "./navbar.component.css",
 })
 export class NavbarComponent {
     pageLinks = [
         { name: "Home", path: "/" },
-        { name: "Tabs", path: "/tabs" },
+        { name: "Songs", path: "/songs" },
         { name: "Music", path: "/music" },
         { name: "FAQ", path: "/faq" },
     ];

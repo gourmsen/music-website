@@ -1,0 +1,66 @@
+<header>
+    <div class="container"></div>
+</header>
+
+@if (songsLoaded) {
+<section id="search">
+    <div class="container">
+        <form [formGroup]="searchForm" class="max-w-md mx-auto mb-5">
+            <label for="search" class="sr-only">Search</label>
+            <div class="relative animate-slide-up-fast">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <fa-icon [icon]="searchIcon" class="text-slate-600 dark:text-white"></fa-icon>
+                </div>
+                <input type="search" id="search" formControlName="search" class="block w-full p-4 ps-10 text-sm rounded-lg
+                    bg-gray-100 dark:bg-zinc-800
+                    text-slate-600 dark:text-white
+                    placeholder:text-gray-300 dark:placeholder:text-zinc-600
+                    border border-gray-200 dark:border-zinc-700
+                    focus:ring-3 focus:ring-gray-100 dark:focus:ring-zinc-800
+                    focus:outline-hidden" placeholder="Search artists, titles, albums ..." required />
+            </div>
+        </form>
+    </div>
+</section>
+
+<section id="songTable" class="h-screen">
+    <div class="container">
+        <div class="overflow-x-auto rounded-lg">
+            <table class="w-full text-sm text-left
+                text-slate-600 dark:text-zinc-300
+                border border-gray-100 dark:border-zinc-800
+                animate-fade-in">
+                <thead class="text-xs font-semibold uppercase">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Artist</th>
+                        <th scope="col" class="px-6 py-3">Title</th>
+                        <th scope="col" class="px-6 py-3">Album</th>
+                        <th scope="col" class="px-6 py-3 text-center">Difficulty</th>
+                        <th scope="col" class="px-6 py-3 text-center">Created</th>
+                        <th scope="col" class="px-6 py-3 text-center">Updated</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (song of songs; track song.id) {
+                    <tr (click)="onSongClick(song.id)" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-800">
+                        <td class="px-6 py-4">{{ song.artist }}</td>
+                        <td class="px-6 py-4">{{ song.title }}</td>
+                        <td class="px-6 py-4">{{ song.album }}</td>
+                        <td class="px-6 py-4 text-center">{{ song.difficulty }}</td>
+                        <td class="px-6 py-4 text-center">{{ song.created_at | date: 'dd.MM.yyyy' }}</td>
+                        <td class="px-6 py-4 text-center">{{ song.updated_at | date: 'dd.MM.yyyy' }}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+}
+
+<!-- Toast -->
+@if (toastVisible) {
+<shared-toast [type]="toastType" [message]="toastMessage" [duration]="toastDuration" (toastClosed)="onToastClosed()"
+    class="flex justify-center mt-8"></shared-toast>
+}

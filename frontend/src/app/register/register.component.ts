@@ -19,11 +19,10 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { RegisterRequest, RegisterResponse } from "../interfaces/auth";
 
 // enums
-import { ToastTypes } from "../shared/toast/toast.enums";
+import { ToastType } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-register",
-    standalone: true,
     imports: [CommonModule, RouterLink, ReactiveFormsModule, FontAwesomeModule, ToastComponent],
     templateUrl: "./register.component.html",
     styleUrl: "./register.component.css",
@@ -35,7 +34,7 @@ export class RegisterComponent {
     passwordIcon = faEye;
 
     toastVisible: boolean;
-    toastType: ToastTypes;
+    toastType: ToastType;
     toastMessage: string;
     toastDuration: number;
 
@@ -85,41 +84,19 @@ export class RegisterComponent {
             password: password,
         };
 
-        this.toastVisible = false;
-
-        this.toastType = ToastTypes.Info;
-        this.toastMessage = "Setting up your account...";
-        this.toastDuration = -1;
-
-        setTimeout(() => {
-            this.toastVisible = true;
-        }, 10);
+        this.showToast(ToastType.Info, "Setting up your account...", -1);
 
         this.authService.register(request).subscribe({
             next: (response) => {
                 this.registerResponse = response.body!;
 
-                this.toastVisible = false;
-
-                this.toastType = ToastTypes.Success;
-                this.toastMessage = "Verification email sent";
-                this.toastDuration = 5000;
-
-                setTimeout(() => {
-                    this.toastVisible = true;
-                }, 10);
+                this.showToast(ToastType.Success, "Verification email sent", 5000);
             },
             error: (error) => {
                 if (error.status === 409) {
-                    this.toastVisible = false;
-
-                    this.toastType = ToastTypes.Danger;
-                    this.toastMessage = "User already exists";
-                    this.toastDuration = 5000;
-
-                    setTimeout(() => {
-                        this.toastVisible = true;
-                    }, 10);
+                    this.showToast(ToastType.Danger, "User already exists", 5000);
+                } else {
+                    this.showToast(ToastType.Danger, "Unable to create account", 5000);
                 }
             },
             complete: () => {},
@@ -128,5 +105,17 @@ export class RegisterComponent {
 
     onToastClosed() {
         this.toastVisible = false;
+    }
+
+    showToast(type: ToastType, message: string, duration: number) {
+        this.toastVisible = false;
+
+        this.toastType = type;
+        this.toastMessage = message;
+        this.toastDuration = duration;
+
+        setTimeout(() => {
+            this.toastVisible = true;
+        }, 10);
     }
 }

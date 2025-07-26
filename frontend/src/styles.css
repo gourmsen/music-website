@@ -1,5 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --animate-slide-up: slide-up 1.5s ease backwards;
+    --animate-slide-up-d-0-5s: slide-up 1.5s ease 0.5s backwards;
+    --animate-slide-up-d-1s: slide-up 1.5s ease 1s backwards;
+    --animate-slide-up-d-1-5s: slide-up 1.5s ease 1.5s backwards;
+    --animate-slide-up-d-2s: slide-up 1.5s ease 2s backwards;
+    --animate-slide-up-fast: slide-up 0.8s ease backwards;
+    --animate-slide-up-fast-d-0-2s: slide-up 0.8s ease 0.2s backwards;
+    --animate-fade-in: fade-in 1.5s ease backwards;
+
+    @keyframes slide-up {
+        0% {
+            transform: translateY(33%);
+            opacity: 0;
+            filter: blur(5px);
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fade-in {
+        0% {
+            opacity: 0;
+            filter: blur(5px);
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+}
+
+@utility container {
+    margin-inline: auto;
+}
+
+@layer utilities {
+}

@@ -1,0 +1,93 @@
+@if (songsLoaded) {
+<header class="pb-14">
+    <div class="container">
+        <div class="flex justify-between gap-6 px-4 py-3 animate-slide-up-fast">
+            <div class="pt-4">
+                <div class="flex gap-2">
+                    <!-- Title -->
+                    <h1 class="text-5xl font-bold
+                    text-slate-600 dark:text-zinc-300">
+                        {{ title }}
+                    </h1>
+
+                    <p class="text-md font-bold
+                        text-slate-300 dark:text-zinc-600">
+                        #{{ trackNumber }}
+                    </p>
+                </div>
+
+                <!-- Artist -->
+                <h2 class="pt-2 ps-2
+                    text-lg font-medium
+                    text-slate-600 dark:text-zinc-300">
+                    {{ artist }}
+                </h2>
+            </div>
+
+            <div class="pt-8">
+                <div class="rounded-md
+                    border border-gray-100 dark:border-zinc-800
+                    inline-flex overflow-hidden">
+
+                    @for (song of songsOfAlbum; track song.id) {
+                    <a class="px-4 py-2
+                        text-sm font-medium
+                        text-slate-600 dark:text-zinc-300
+                        border-r border-gray-100 dark:border-zinc-800 last:border-r-0"
+                        [routerLink]="['/songs', song.id]">
+                        {{ song.title }}
+                    </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="video">
+    <div class="container">
+        <div class="flex justify-center py-3 animate-slide-up-fast">
+            <button type="button" class="px-4 py-2 text-sm font-medium rounded-s-lg
+                    text-slate-600 dark:text-zinc-300
+                    hover:bg-slate-100 hover:dark:bg-zinc-800
+                    border border-gray-100 dark:border-zinc-800"
+                [ngClass]="{'bg-slate-100 dark:bg-zinc-800': selectedVideo === 0}" (click)="onSwitchVideo(0)">
+                Full Video
+            </button>
+            <button type="button" class="px-4 py-2 text-sm font-medium
+                    text-slate-600 dark:text-zinc-300
+                    hover:bg-slate-100 hover:dark:bg-zinc-800
+                    border-t border-b border-gray-100 dark:border-zinc-800"
+                [ngClass]="{'bg-slate-100 dark:bg-zinc-800': selectedVideo === 1}" (click)="onSwitchVideo(1)">
+                Guitar Only
+            </button>
+            <button type="button" class="px-4 py-2 text-sm font-medium rounded-e-lg
+                    text-slate-600 dark:text-zinc-300
+                    hover:bg-slate-100 hover:dark:bg-zinc-800
+                    border border-gray-100 dark:border-zinc-800"
+                [ngClass]="{'bg-slate-100 dark:bg-zinc-800': selectedVideo === 2}" (click)="onSwitchVideo(2)">
+                Backing Track
+            </button>
+            <a class="px-4 py-2 ms-2 rounded-lg
+                    text-slate-600 dark:text-zinc-300
+                    hover:bg-slate-100 hover:dark:bg-zinc-800
+                    border border-gray-100 dark:border-zinc-800"
+                [href]="tabUrl">
+                <fa-icon [icon]="downloadIcon" />
+            </a>
+        </div>
+
+        <div class="flex justify-center animate-fade-in">
+            @if (currentVideoUrl) {
+            <youtube-player [videoId]="currentVideoUrl" loadApi="true" />
+            }
+        </div>
+    </div>
+</section>
+}
+
+<!-- Toast -->
+@if (toastVisible) {
+<shared-toast [type]="toastType" [message]="toastMessage" [duration]="toastDuration" (toastClosed)="onToastClosed()"
+    class="flex justify-center mt-8"></shared-toast>
+}

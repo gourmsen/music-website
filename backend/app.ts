@@ -19,6 +19,8 @@ import { systemLogger, apiLogger } from "./modules/logger";
 
 // requests (get)
 import { viewUser } from "./requests/user-detail";
+import { listSongs } from "./requests/song-list";
+import { viewSong } from "./requests/song-detail";
 
 // requests (post)
 import { register } from "./requests/register";
@@ -101,6 +103,50 @@ app.get("/user-detail", async (req, res) => {
         });
 
         logApiMessage("warn", "Failure", req, { email: email }, (error as CustomError).status);
+    }
+});
+
+// song-detail
+app.get("/song-detail", async (req, res) => {
+    let { id } = req.query;
+
+    let parsedId = parseInt(id as string);
+
+    if (isNaN(parsedId)) parsedId = 0;
+
+    logApiMessage("http", "Request", req, { id: parsedId });
+
+    try {
+        let result = await viewSong(parsedId);
+        res.status(200).json(result);
+
+        logApiMessage("info", "Success", req, { id: parsedId });
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+
+        logApiMessage("warn", "Failure", req, { id: parsedId }, (error as CustomError).status);
+    }
+});
+
+// song-list
+app.get("/song-list", async (req, res) => {
+    logApiMessage("http", "Request", req);
+
+    try {
+        let result = await listSongs();
+        res.status(200).json(result);
+
+        logApiMessage("info", "Success", req);
+    } catch (error) {
+        res.status((error as CustomError).status).json({
+            name: (error as CustomError).name,
+            message: (error as CustomError).message,
+        });
+
+        logApiMessage("warn", "Failure", req, null, (error as CustomError).status);
     }
 });
 
@@ -260,20 +306,24 @@ server.listen(env.PORT, () => {
 });
 
 function logApiMessage(level: string, message: string, req: any, data?: any, status?: number) {
+    let baseUrl = req.url.split("?")[0];
+
     let defaults = {
         ip: req.ip,
         method: req.method,
-        url: req.url,
+        url: baseUrl,
     };
 
-    let parameters: string = "";
-    for (let key in data) {
-        parameters += `${key}: ${data[key]}, `;
-    }
-    parameters = parameters.slice(0, -2);
-    parameters = `(${parameters})`;
+    if (data) {
+        let parameters: string = "";
+        for (let key in data) {
+            parameters += `${key}: ${data[key]}, `;
+        }
+        parameters = parameters.slice(0, -2);
+        parameters = `(${parameters})`;
 
-    message += ` ${parameters}`;
+        message += ` ${parameters}`;
+    }
 
     if (status) message += ` -> ${status}`;
 

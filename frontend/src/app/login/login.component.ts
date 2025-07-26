@@ -18,11 +18,10 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { LoginRequest, LoginResponse, ResendRequest, ResendResponse } from "../interfaces/auth";
 
 // enums
-import { ToastTypes } from "../shared/toast/toast.enums";
+import { ToastType } from "../shared/toast/toast.enums";
 
 @Component({
     selector: "app-login",
-    standalone: true,
     imports: [CommonModule, RouterLink, ReactiveFormsModule, FontAwesomeModule, ToastComponent],
     templateUrl: "./login.component.html",
     styleUrl: "./login.component.css",
@@ -34,7 +33,7 @@ export class LoginComponent {
     passwordIcon = faEye;
 
     toastVisible: boolean;
-    toastType: ToastTypes;
+    toastType: ToastType;
     toastMessage: string;
     toastDuration: number;
     toastButton: string;
@@ -72,49 +71,22 @@ export class LoginComponent {
             password: password,
         };
 
-        this.toastVisible = false;
-
-        this.toastType = ToastTypes.Info;
-        this.toastMessage = "Logging in...";
-        this.toastDuration = -1;
-        this.toastButton = "";
-
-        setTimeout(() => {
-            this.toastVisible = true;
-        }, 10);
+        this.showToast(ToastType.Info, "Logging in...", -1, "");
 
         this.authService.login(request).subscribe({
             next: (response) => {
                 this.loginResponse = response.body!;
 
-                this.toastVisible = false;
-
-                this.toastType = ToastTypes.Success;
-                this.toastMessage = "Successfully logged in";
-                this.toastDuration = 5000;
-                this.toastButton = "";
-
-                setTimeout(() => {
-                    this.toastVisible = true;
-                }, 10);
+                this.showToast(ToastType.Success, "Successfully logged in", 5000, "");
             },
             error: (error) => {
-                this.toastVisible = false;
-
-                this.toastType = ToastTypes.Danger;
-                this.toastDuration = 5000;
-
                 if (error.status === 401) {
-                    this.toastMessage = "Invalid credentials";
-                    this.toastButton = "";
+                    this.showToast(ToastType.Danger, "Invalid credentials", 5000, "");
                 } else if (error.status === 403) {
-                    this.toastMessage = "User not verified";
-                    this.toastButton = "Resend";
+                    this.showToast(ToastType.Warning, "User not verified", -1, "Resend");
+                } else {
+                    this.showToast(ToastType.Danger, "Unable to log in", 5000, "");
                 }
-
-                setTimeout(() => {
-                    this.toastVisible = true;
-                }, 10);
             },
             complete: () => {},
         });
@@ -124,38 +96,35 @@ export class LoginComponent {
         this.toastVisible = false;
     }
 
+    showToast(type: ToastType, message: string, duration: number, button: string) {
+        this.toastVisible = false;
+
+        this.toastType = type;
+        this.toastMessage = message;
+        this.toastDuration = duration;
+        this.toastButton = button;
+
+        setTimeout(() => {
+            this.toastVisible = true;
+        }, 10);
+    }
+
     onButtonClicked() {
         let request: ResendRequest = {
             email: this.email!.value,
         };
 
-        this.toastVisible = false;
-
-        this.toastType = ToastTypes.Info;
-        this.toastMessage = "Resending verification email...";
-        this.toastDuration = -1;
-        this.toastButton = "";
-
-        setTimeout(() => {
-            this.toastVisible = true;
-        }, 10);
+        this.showToast(ToastType.Info, "Resending verification email...", -1, "");
 
         this.authService.resend(request).subscribe({
             next: (response) => {
                 this.resendResponse = response.body!;
 
-                this.toastVisible = false;
-
-                this.toastType = ToastTypes.Success;
-                this.toastMessage = "Verification email sent";
-                this.toastDuration = 5000;
-                this.toastButton = "";
-
-                setTimeout(() => {
-                    this.toastVisible = true;
-                }, 10);
+                this.showToast(ToastType.Success, "Verification email sent", 5000, "");
             },
-            error: (error) => {},
+            error: (error) => {
+                this.showToast(ToastType.Danger, "Unable to send verification email", 5000, "");
+            },
             complete: () => {},
         });
     }

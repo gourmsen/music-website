@@ -10,7 +10,6 @@ import * as about from "../../assets/texts/about.json";
 
 @Component({
     selector: "app-home",
-    standalone: true,
     imports: [FontAwesomeModule],
     templateUrl: "./home.component.html",
     styleUrl: "./home.component.css",
@@ -35,7 +34,7 @@ export class HomeComponent implements AfterViewInit {
                             entry.target.classList.add("animate-slide-up");
                             break;
                         case this.aboutText.nativeElement:
-                            entry.target.classList.add("animate-slide-up-d-0.5s");
+                            entry.target.classList.add("animate-slide-up-d-0-5s");
                             break;
                         case this.aboutImage.nativeElement:
                             entry.target.classList.add("animate-slide-up-d-1s");

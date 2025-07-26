@@ -6,17 +6,16 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faCheck, faExclamation, faBan, faInfo, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 // enums
-import { ToastTypes } from "./toast.enums";
+import { ToastType } from "./toast.enums";
 
 @Component({
     selector: "shared-toast",
-    standalone: true,
     imports: [FontAwesomeModule],
     templateUrl: "./toast.component.html",
     styleUrl: "./toast.component.css",
 })
 export class ToastComponent {
-    @Input() type: ToastTypes;
+    @Input() type: ToastType;
     @Input() message: string;
     @Input() duration: number;
     @Input() button: string;
@@ -26,17 +25,17 @@ export class ToastComponent {
     closeIcon = faXmark;
 
     iconMap = {
-        [ToastTypes.Success]: faCheck,
-        [ToastTypes.Warning]: faExclamation,
-        [ToastTypes.Danger]: faBan,
-        [ToastTypes.Info]: faInfo,
+        [ToastType.Success]: faCheck,
+        [ToastType.Warning]: faExclamation,
+        [ToastType.Danger]: faBan,
+        [ToastType.Info]: faInfo,
     };
 
     colorMap = {
-        [ToastTypes.Success]: "bg-green-400",
-        [ToastTypes.Warning]: "bg-yellow-400",
-        [ToastTypes.Danger]: "bg-red-400",
-        [ToastTypes.Info]: "bg-blue-400",
+        [ToastType.Success]: "bg-green-400",
+        [ToastType.Warning]: "bg-yellow-400",
+        [ToastType.Danger]: "bg-red-400",
+        [ToastType.Info]: "bg-blue-400",
     };
 
     isVisible: boolean = false;

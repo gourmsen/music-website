@@ -2,7 +2,8 @@ import { Routes } from "@angular/router";
 
 // components
 import { HomeComponent } from "./home/home.component";
-import { TabsComponent } from "./tabs/tabs.component";
+import { SongsComponent } from "./songs/songs.component";
+import { SongComponent } from "./song/song.component";
 import { MusicComponent } from "./music/music.component";
 import { FaqComponent } from "./faq/faq.component";
 import { LoginComponent } from "./login/login.component";
@@ -17,9 +18,14 @@ export const routes: Routes = [
         component: HomeComponent,
     },
     {
-        title: "Tabs | Max Niessl",
-        path: "tabs",
-        component: TabsComponent,
+        title: "Songs | Max Niessl",
+        path: "songs",
+        component: SongsComponent,
+    },
+    {
+        title: "Song Details | Max Niessl",
+        path: "songs/:id",
+        component: SongComponent,
     },
     {
         title: "Music | Max Niessl",
