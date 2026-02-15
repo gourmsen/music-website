@@ -9,7 +9,7 @@ export const routes: Routes = [
     { path: '', component: Home },
 
     // lazy loaded
-    { path: 'tabs', loadComponent: () => import('./tabs/tabs').then((m) => m.Tabs) },
+    { path: 'songs', loadComponent: () => import('./songs/songs').then((m) => m.Songs) },
     { path: 'music', loadComponent: () => import('./music/music').then((m) => m.Music) },
     { path: 'about', loadComponent: () => import('./about/about').then((m) => m.About) },
     { path: 'faq', loadComponent: () => import('./faq/faq').then((m) => m.Faq) },

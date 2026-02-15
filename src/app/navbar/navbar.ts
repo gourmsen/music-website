@@ -15,7 +15,7 @@ import { HlmNavigationMenuImports } from '@spartan-ng/helm/navigation-menu';
 export class Navbar {
     routes = [
         { name: 'Home', path: '/' },
-        { name: 'Tabs', path: '/tabs' },
+        { name: 'Songs', path: '/songs' },
         { name: 'Music', path: '/music' },
         { name: 'About', path: '/about' },
         { name: 'FAQ', path: '/faq' },
