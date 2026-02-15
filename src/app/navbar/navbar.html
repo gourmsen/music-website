@@ -1,0 +1,26 @@
+<div class="flex justify-between items-center px-8 py-4">
+    <!-- left side -->
+    <nav hlmNavigationMenu>
+        <ul hlmNavigationMenuList>
+            @for (r of routes; track r) {
+                <li hlmNavigationMenuItem class="px-1">
+                    <a hlmNavigationMenuLink [routerLink]="r.path">{{ r.name }}</a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+    <!-- logo text -->
+    <h1>max niessl.</h1>
+
+    <!-- right side -->
+    <nav hlmNavigationMenu>
+        <ul hlmNavigationMenuList>
+            @for (s of socials; track s) {
+                <li hlmNavigationMenuItem class="px-1">
+                    <a hlmNavigationMenuLink [href]="s.path" target="_blank">{{ s.name }}</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
