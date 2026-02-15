@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 // spartan
+import { HlmH3, HlmSmall } from '@spartan-ng/helm/typography';
 import { HlmNavigationMenuImports } from '@spartan-ng/helm/navigation-menu';
 
 @Component({
     selector: 'app-navbar',
-    imports: [RouterLink, HlmNavigationMenuImports],
+    imports: [RouterLink, HlmH3, HlmSmall, HlmNavigationMenuImports],
     templateUrl: './navbar.html',
     styleUrl: './navbar.css',
 })
