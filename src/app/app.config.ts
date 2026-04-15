@@ -12,6 +12,11 @@ export const appConfig: ApplicationConfig = {
         providePrimeNG({
             theme: {
                 preset: Nora,
+                options: {
+                    prefix: 'p',
+                    darkModeSelector: '.dark-mode',
+                    cssLayer: false,
+                },
             },
         }),
     ],
